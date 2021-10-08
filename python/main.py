@@ -5,12 +5,18 @@ import neopixel
 sleep_duration = 0.5
 
 colors = [
-    [255, 0, 0],
-    [255, 255, 0],
-    [0, 255, 0],
-    [0, 255, 255],
-    [0, 0, 255],
-    [255, 0, 255],
+    '#d9ed92',
+    '#b5e48c',
+    '#99d98c',
+    '#34a0a4',
+    '#1a759f',
+    '#184e77',
+    # [255, 0, 0],
+    # [255, 255, 0],
+    # [0, 255, 0],
+    # [0, 255, 255],
+    # [0, 0, 255],
+    # [255, 0, 255],
 ]
 
 pixels = neopixel.NeoPixel(board.D18, 50)
@@ -30,6 +36,3 @@ def loopPrimaryColors():
 
 while True:
     loopPrimaryColors()
-
-# pixels.show()
-# pixels.write()
