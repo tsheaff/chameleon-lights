@@ -24,7 +24,14 @@ colors = [
 ]
 
 pixels = neopixel.NeoPixel(PIN, NUM_LEDS)
-pixels.fill([42, 212, 0])
+
+for i in range(NUM_LEDS):
+    is_even = (i % 2) == 0
+    if is_even:
+        color = [177, 0, 212]
+    else:
+        color = [42, 212, 0]
+    pixels[i] = color
 
 # def loopPrimaryColors():
 #     for hex in colors:
