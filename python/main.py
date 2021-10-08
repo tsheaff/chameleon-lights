@@ -2,8 +2,10 @@ import time
 import board
 import neopixel
 
-frame_rate = 24.0
-sleep_duration = (1 / frame_rate)
+FRAME_RATE = 24.0
+FRAME_DURATION = (1 / FRAME_RATE)
+PIN = board.D18
+NUM_LEDS = 50
 
 def hex_to_rgb(value):
     value = value.lstrip('#')
@@ -32,11 +34,12 @@ colors = [
     '#10451d',
 ]
 
-pixels = neopixel.NeoPixel(board.D18, 50)
+pixels = neopixel.NeoPixel(PIN, NUM_LEDS)
 def loopPrimaryColors():
-    for hex in colors:
-        pixels.fill(hex_to_rgb(hex))
-        time.sleep(sleep_duration)
+    for i in range(NUM_LEDS):
+        for hex in colors:
+            pixels[i] = hex_to_rgb(hex)
+            time.sleep(FRAME_DURATION)
 
 while True:
     loopPrimaryColors()
