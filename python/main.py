@@ -24,7 +24,7 @@ colors = [
 ]
 
 pixels = neopixel.NeoPixel(PIN, NUM_LEDS)
-pixels.fill([199, 4, 58])
+pixels.fill([42, 212, 0])
 
 # def loopPrimaryColors():
 #     for hex in colors:
