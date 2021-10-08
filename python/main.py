@@ -35,11 +35,14 @@ colors = [
 ]
 
 pixels = neopixel.NeoPixel(PIN, NUM_LEDS)
+pixels.fill([0,0,0])
+
 def loopPrimaryColors():
-    for i in range(NUM_LEDS):
-        for hex in colors:
+    for hex in colors:
+        for i in range(NUM_LEDS):
             pixels[i] = hex_to_rgb(hex)
-            time.sleep(FRAME_DURATION)
+
+        time.sleep(1.0)
 
 while True:
     loopPrimaryColors()
