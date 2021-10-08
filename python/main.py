@@ -25,19 +25,20 @@ colors = [
 
 pixels = neopixel.NeoPixel(PIN, NUM_LEDS)
 
-for i in range(NUM_LEDS):
-    is_even = (i % 2) == 0
-    if is_even:
-        color = [177, 0, 212]
-    else:
-        color = [42, 212, 0]
-    pixels[i] = color
+# def parity_colors(even_color, odd_color):
+#     for i in range(NUM_LEDS):
+#         is_even = (i % 2) == 0
+#         if is_even:
+#             color = even_color
+#         else:
+#             color = odd_color
+#         pixels[i] = color
 
-# def loopPrimaryColors():
-#     for hex in colors:
-#         for i in range(NUM_LEDS):
-#             pixels[i] = hex_to_rgb(hex)
-#             time.sleep(0.75 * FRAME_DURATION)
+def loopPrimaryColors():
+    for hex in colors:
+        for i in range(NUM_LEDS):
+            pixels[i] = hex_to_rgb(hex)
+            time.sleep(0.75 * FRAME_DURATION)
 
-# while True:
-#     loopPrimaryColors()
+while True:
+    loopPrimaryColors()
