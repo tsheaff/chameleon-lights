@@ -38,7 +38,7 @@ def loopPrimaryColors():
     for hex in colors:
         for i in range(NUM_LEDS):
             pixels[i] = hex_to_rgb(hex)
-            time.sleep(0.75 * FRAME_DURATION)
+            time.sleep(3 * FRAME_DURATION)
 
 while True:
     loopPrimaryColors()
