@@ -32,7 +32,5 @@ def loopPrimaryColors():
             pixels[i] = hex_to_rgb(hex)
             time.sleep(0.2 * FRAME_DURATION)
 
-        time.sleep(1.0)
-
 while True:
     loopPrimaryColors()
