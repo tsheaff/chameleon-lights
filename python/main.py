@@ -2,7 +2,8 @@ import time
 import board
 import neopixel
 
-sleep_duration = 0.2
+frame_rate = 24.0
+sleep_duration = (1 / frame_rate)
 
 def hex_to_rgb(value):
     value = value.lstrip('#')
