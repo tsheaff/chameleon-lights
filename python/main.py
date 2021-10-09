@@ -8,7 +8,7 @@ from colour import Color
 PIN = board.D18
 NUM_PIXELS = 50
 
-FRAME_RATE = 60.0
+FRAME_RATE = 20.0 # TODO: What can the human eye perceive in these LEDs? Probably not 60fps
 FRAME_DURATION = (1 / FRAME_RATE)
 
 pixels = neopixel.NeoPixel(PIN, NUM_PIXELS, auto_write=False)
@@ -34,7 +34,6 @@ def colorToRGB(color):
 
 def updateFrame(duration_elapsed):
     pulser.apply()
-    print("pixels", pixels)
 
 def applyColors():
     for i, c in enumerate(pixel_colors):
@@ -56,13 +55,18 @@ class GradientPulser:
 
     def apply(self):
         time_elapsed = time.time() - self.timeBegan
+        print("GradientPulser apply: time_elapsed", time_elapsed)
         x = time_elapsed / self.period
+        print("GradientPulser apply: x", x)
         current_amplitude = math.sin(x)
+        print("GradientPulser apply: current_amplitude", current_amplitude)
         color1Now = interpolateColors(self.color1, self.color2, current_amplitude)
+        print("GradientPulser apply: color1Now", color1Now)
         color2Now = interpolateColors(self.color2, self.color1, current_amplitude)
+        print("GradientPulser apply: color2Now", color2Now)
         applyGradient(color1Now, color2Now)
 
-pulser = GradientPulser(3.0, Color('red'), Color('blue'))
+pulser = GradientPulser(3.0, Color('#ff0000'), Color('#00ffff'))
 pulser.start()
 
 while True:
@@ -71,9 +75,6 @@ while True:
 
     updateFrame(duration_elapsed)
     applyColors()
-
-    color1 = Color("#ff0000")
-    color2 = Color("#00ffff")
 
     frame_cpu_duration = time.time() - current_time
     print("frame_cpu_duration ms:", frame_cpu_duration * 1000)
