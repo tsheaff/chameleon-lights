@@ -57,8 +57,8 @@ class GradientPulser:
         time_elapsed = time.time() - self.timeBegan
         x = time_elapsed / self.period
         current_amplitude = math.sin(x)
-        color1Now = interpolateColors(color1, color2, current_amplitude)
-        color2Now = interpolateColors(color2, color1, current_amplitude)
+        color1Now = interpolateColors(self.color1, self.color2, current_amplitude)
+        color2Now = interpolateColors(self.color2, self.color1, current_amplitude)
         applyGradient(color1Now, color2Now)
 
 pulser = GradientPulser(3.0, Color('red'), Color('blue'))
