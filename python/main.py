@@ -57,9 +57,9 @@ class GradientPulser:
     def apply(self):
         time_elapsed = time.time() - self.timeBegan
         print("GradientPulser apply: time_elapsed", time_elapsed)
-        x = math.pi * time_elapsed / self.period
+        x = 2 * math.pi * time_elapsed / self.period
         print("GradientPulser apply: x", x)
-        current_amplitude = math.sin(x)
+        current_amplitude = abs(math.sin(x))
         print("GradientPulser apply: current_amplitude", current_amplitude)
         color1Now = interpolateColors(self.color1, self.color2, current_amplitude)
         print("GradientPulser apply: color1Now", color1Now)
