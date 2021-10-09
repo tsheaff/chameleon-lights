@@ -43,8 +43,8 @@ blue = 0
 
 while True:
     pixels.fill([
-        random.randint(0, 10),
-        random.randint(0, 10),
-        random.randint(0, 10),
+        random.randint(0, 1),
+        random.randint(0, 1),
+        random.randint(0, 1),
     ])
     time.sleep(1.0)
