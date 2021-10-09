@@ -106,11 +106,11 @@ def makeStreakerConfig(time, color, speed):
         "speed": speed,
     }
 
-streakerConfig = {
+streakerConfig = [
     makeStreakerConfig(0.0, 'red', 35),
     makeStreakerConfig(4.0, 'green', 80),
     makeStreakerConfig(9.0, 'blue', 20),
-}
+]
 
 frame_index = 0
 
