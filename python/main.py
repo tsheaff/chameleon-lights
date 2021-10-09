@@ -84,11 +84,11 @@ class Streaker:
             return
 
         time_elapsed = time.time() - self.timeBegan
-        max_pixel = min(NUM_PIXELS, self.speed * time_elapsed)
+        max_pixel = min(NUM_PIXELS, math.floor(self.speed * time_elapsed))
         for i in range(0, max_pixel):
             pixel_colors[i] = self.color
 
-        if max_pixel > NUM_PIXELS:
+        if max_pixel == NUM_PIXELS:
             self.stop()
 
 # pulser = GradientPulser(9.0, Color('red'), Color('blue'))
