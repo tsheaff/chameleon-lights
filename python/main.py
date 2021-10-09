@@ -47,5 +47,4 @@ while True:
         random.randint(0, 255),
         random.randint(0, 255),
     ])
-    pixels.brightness = 0.005
     time.sleep(1.0)
