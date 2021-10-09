@@ -61,7 +61,7 @@ while True:
     tick1 = time.time()
     applyColors()
     frame_clock_time = time.time() - time_elapsed
-    sleep_time = math.max(0, FRAME_DURATION - frame_clock_time)
+    sleep_time = max(0, FRAME_DURATION - frame_clock_time)
     print("frame_clock_time", frame_clock_time)
     print("sleep_time", sleep_time)
     time.sleep(sleep_time)
