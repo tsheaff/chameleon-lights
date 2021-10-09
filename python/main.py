@@ -47,8 +47,8 @@ def applyGradient(color1, color2):
 class GradientPulser:
     def __init__(self, period, color1, color2):
         self.period = period
-        self._color1 = color1
-        self._color2 = color2
+        self.color1 = color1
+        self.color2 = color2
 
     def start(self):
         self.timeBegan = time.time()
