@@ -107,9 +107,9 @@ def makeStreakerConfig(time, color, speed):
     }
 
 streakerConfig = {
-    makeStreakerConfig(0.0, Color('red'), 35),
-    makeStreakerConfig(4.0, Color('green'), 80),
-    makeStreakerConfig(9.0, Color('blue'), 20),
+    makeStreakerConfig(0.0, 'red', 35),
+    makeStreakerConfig(4.0, 'green', 80),
+    makeStreakerConfig(9.0, 'blue', 20),
 }
 
 frame_index = 0
@@ -120,7 +120,7 @@ while True:
 
     for config in streakerConfig:
         if frame_index == config["frame"]:
-            streaker = Streaker(config["speed"], config["color"])
+            streaker = Streaker(config["speed"], Color(config["color"]))
             streakers.append(streaker)
             streaker.start()
 
