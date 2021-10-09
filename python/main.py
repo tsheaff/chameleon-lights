@@ -4,44 +4,43 @@ import time
 import colors
 import math
 import random
+from colour import Color
 
 PIN = board.D18
-NUM_LEDS = 50
+NUM_PIXELS = 50
 
 FRAME_RATE = 60.0
 FRAME_DURATION = (1 / FRAME_RATE)
 
-pixels = neopixel.NeoPixel(PIN, NUM_LEDS)
-
+pixels = neopixel.NeoPixel(PIN, NUM_PIXELS)
+pixel_colors = map(lambda x: Color("#00ff00"), [None] * NUM_PIXELS)
+print("pixel_colors", pixel_colors)
 start_time = time.time()
 
 def periodIndex(period, time_elapsed):
     return math.floor(time_elapsed / period)
 
-red = 0
-green = 0
-blue = 0
+def colorToRGB(color):
+    return [
+        math.floor(color.red * 255),
+        math.floor(color.green * 255),
+        math.floor(color.blue * 255),
+    ]
 
-# def drawFrame(time_elapsed):
-#     global red, green, blue
-#     colorIndex = periodIndex(1.0, time_elapsed)
-#     distance = 3
-#     red += random.randint(-distance, 2 * distance)
-#     green += random.randint(-distance, distance)
-#     blue += random.randint(-distance, distance)
-#     print("color is", [red % 256, green % 256, blue % 256])
-#     pixels.fill([red % 256, green % 256, blue % 256])
-#     # for hex in colors.pallette:
-#     #     for i in range(NUM_LEDS):
-#     #         pixels[i] = colors.hex_to_rgb(hex)
+def updateFrame(time_elapsed):
+    print("update frame", time_elapsed)
 
-# while True:
-#     current_time = time.time()
-#     time_elapsed = current_time - start_time
-#     drawFrame(time_elapsed)
-#     time.sleep(FRAME_DURATION)
+def applyColors():
+    for i, c in enumerate(pixel_colors):
+        pixels[i] = colorToRGB(c)
 
 while True:
-    pixels.fill([13, 0, 115])
-    print("pixels is", pixels[0])
+    current_time = time.time()
+    time_elapsed = current_time - start_time
+    updateFrame(time_elapsed)
+    applyColors()
+    time.sleep(FRAME_DURATION)
+
+while True:
+    
     time.sleep(1.0)
