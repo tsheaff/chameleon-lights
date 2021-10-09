@@ -1,7 +1,6 @@
 import board
 import neopixel
 import time
-import colors
 import math
 import random
 from colour import Color
