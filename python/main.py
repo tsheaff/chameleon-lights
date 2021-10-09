@@ -29,6 +29,7 @@ def drawFrame(time_elapsed):
     red += random.randint(-distance, distance)
     green += random.randint(-distance, distance)
     blue += random.randint(-distance, distance)
+    print("color is", [red % 256, green % 256, blue % 256])
     pixels.fill([red % 256, green % 256, blue % 256])
     # for hex in colors.pallette:
     #     for i in range(NUM_LEDS):
