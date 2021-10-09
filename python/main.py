@@ -47,5 +47,5 @@ while True:
         random.randint(0, 1),
         random.randint(0, 1),
     ])
-    print("pixels is", pixels)
+    print("pixels is", pixels[0])
     time.sleep(1.0)
