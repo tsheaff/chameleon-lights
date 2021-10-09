@@ -34,6 +34,7 @@ def colorToRGB(color):
 
 def updateFrame(duration_elapsed):
     pulser.apply()
+    print("pixels", pixels)
 
 def applyColors():
     for i, c in enumerate(pixel_colors):
@@ -75,5 +76,6 @@ while True:
     color2 = Color("#00ffff")
 
     frame_cpu_duration = time.time() - current_time
+    print("frame_cpu_duration ms:", frame_cpu_duration * 1000)
     sleep_duration = max(0, FRAME_DURATION - frame_cpu_duration)
     time.sleep(sleep_duration)
