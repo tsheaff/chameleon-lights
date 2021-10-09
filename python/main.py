@@ -43,9 +43,7 @@ def applyColors():
     tick1 = time.time()
     pixels.show()
     tick2 = time.time()
-    print("   applyColors tick1 is", tick1 - tick0)
-    print("   applyColors tick2 is", tick2 - tick1)
-
+    # time.sleep(0.1)
 
 def applyGradient():
     color1 = Color("#ff0000")
@@ -62,8 +60,8 @@ while True:
     updateFrame(time_elapsed)
     tick1 = time.time()
     applyColors()
-    tick2 = time.time()
-
-    print("tick1 is", tick1 - tick0)
-    print("tick2 is", tick2 - tick1)
-    time.sleep(FRAME_DURATION)
+    frame_clock_time = time.time() - time_elapsed
+    sleep_time = math.max(0, FRAME_DURATION - frame_clock_time)
+    print("frame_clock_time", frame_clock_time)
+    print("sleep_time", sleep_time)
+    time.sleep(sleep_time)
