@@ -34,7 +34,10 @@ def colorToRGB(color):
     ]
 
 def updateFrame(duration_elapsed):
-    pulser.apply()
+    print("updateFrame", duration_elapsed)
+    # pulser.apply()
+    for streaker in streakers:
+        streaker.apply()
 
 def applyColors():
     for i, c in enumerate(pixel_colors):
@@ -62,17 +65,64 @@ class GradientPulser:
         color2Now = interpolateColors(self.color2, self.color1, current_amplitude)
         applyGradient(color1Now, color2Now)
 
-pulser = GradientPulser(9.0, Color('red'), Color('blue'))
-pulser.start()
+class Streaker:
+    # speed in pixels per second
+    def __init__(self, speed, color):
+        self.speed = speed
+        self.color = color
+
+    def start(self):
+        self.timeBegan = time.time()
+
+    def stop(self):
+        self.isStopped = True
+
+    def apply(self):
+        # TODO: Actually dealloc it
+        if self.isStopped:
+            return
+
+        time_elapsed = time.time() - self.timeBegan
+        max_pixel = min(NUM_PIXELS, self.speed * time_elapsed)
+        for i in range(0, max_pixel):
+            pixel_colors[i] = self.color
+
+        if max_pixel > NUM_PIXELS:
+            self.stop()
+
+# pulser = GradientPulser(9.0, Color('red'), Color('blue'))
+# pulser.start()
+
+streakers = []
+
+frame_index = 0
+
+def frameIndexAt(duration_elapsed):
+    return math.floor(duration_elapsed / FRAME_DURATION)
 
 while True:
     current_time = time.time()
     duration_elapsed = current_time - start_time
 
+    if frame_index == frameIndexAt(0.0):
+        streaker = Streaker(35, Color('red'))
+        streakers.append(streaker)
+        streaker.start()
+    elif frame_index == frameIndexAt(4.0):
+        streaker = Streaker(80, Color('green'))
+        streakers.append(streaker)
+        streaker.start()
+    elif frame_index == frameIndexAt(9.0):
+        streaker = Streaker(20, Color('blue'))
+        streakers.append(streaker)
+        streaker.start()
+
     updateFrame(duration_elapsed)
     applyColors()
 
     frame_cpu_duration = time.time() - current_time
-    print("frame_cpu_duration ms:", frame_cpu_duration * 1000)
+    # print("frame_cpu_duration ms:", frame_cpu_duration * 1000)
     sleep_duration = max(0, FRAME_DURATION - frame_cpu_duration)
     time.sleep(sleep_duration)
+
+    frame_index += 1
