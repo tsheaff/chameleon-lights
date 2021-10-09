@@ -22,8 +22,8 @@ def interpolate(num1, num2, elapsed):
 def interpolateColors(color1, color2, elapsed):
     return Color(
         red=interpolate(color1.red, color2.red, elapsed),
-        green=interpolate(color1.red, color2.red, elapsed),
-        blue=interpolate(color1.red, color2.red, elapsed),
+        green=interpolate(color1.green, color2.green, elapsed),
+        blue=interpolate(color1.blue, color2.blue, elapsed),
     )
 
 def colorToRGB(color):
