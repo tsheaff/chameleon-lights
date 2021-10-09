@@ -11,7 +11,7 @@ NUM_PIXELS = 50
 FRAME_RATE = 60.0
 FRAME_DURATION = (1 / FRAME_RATE)
 
-pixels = neopixel.NeoPixel(PIN, NUM_PIXELS)
+pixels = neopixel.NeoPixel(PIN, NUM_PIXELS, auto_write=False)
 pixel_colors = list(map(lambda x: Color("#000000"), [None] * NUM_PIXELS))
 print("pixel_colors", pixel_colors)
 start_time = time.time()
@@ -38,7 +38,8 @@ def updateFrame(time_elapsed):
 
 def applyColors():
     for i, c in enumerate(pixel_colors):
-        colorToRGB(c)
+        pixels[i] = colorToRGB(c)
+    pixels.show()
 
 def applyGradient():
     color1 = Color("#ff0000")
