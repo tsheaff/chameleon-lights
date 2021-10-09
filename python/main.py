@@ -15,6 +15,7 @@ pixels = neopixel.NeoPixel(PIN, NUM_PIXELS, auto_write=False)
 pixel_colors = list(map(lambda x: Color("#000000"), [None] * NUM_PIXELS))
 start_time = time.time()
 
+# elapsed must be between 0 and 1
 def interpolate(num1, num2, elapsed):
     return num1 + (num2 - num1) * elapsed
 
@@ -56,7 +57,7 @@ class GradientPulser:
     def apply(self):
         time_elapsed = time.time() - self.timeBegan
         print("GradientPulser apply: time_elapsed", time_elapsed)
-        x = time_elapsed / self.period
+        x = math.pi * time_elapsed / self.period
         print("GradientPulser apply: x", x)
         current_amplitude = math.sin(x)
         print("GradientPulser apply: current_amplitude", current_amplitude)
