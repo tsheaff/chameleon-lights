@@ -62,7 +62,7 @@ class GradientPulser:
         color2Now = interpolateColors(self.color2, self.color1, current_amplitude)
         applyGradient(color1Now, color2Now)
 
-pulser = GradientPulser(9.0, Color('#ffbe0b'), Color('#8338ec'))
+pulser = GradientPulser(9.0, Color('red'), Color('blue'))
 pulser.start()
 
 while True:
