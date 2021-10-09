@@ -57,7 +57,7 @@ class GradientPulser:
     def apply(self):
         time_elapsed = time.time() - self.timeBegan
         print("GradientPulser apply: time_elapsed", time_elapsed)
-        x = 2 * math.pi * time_elapsed / self.period
+        x = math.pi * time_elapsed / self.period
         print("GradientPulser apply: x", x)
         current_amplitude = abs(math.sin(x))
         print("GradientPulser apply: current_amplitude", current_amplitude)
@@ -67,7 +67,7 @@ class GradientPulser:
         print("GradientPulser apply: color2Now", color2Now)
         applyGradient(color1Now, color2Now)
 
-pulser = GradientPulser(3.0, Color('#ff0000'), Color('#00ffff'))
+pulser = GradientPulser(9.0, Color('#ffbe0b'), Color('#8338ec'))
 pulser.start()
 
 while True:
