@@ -42,5 +42,10 @@ blue = 0
 #     time.sleep(FRAME_DURATION)
 
 while True:
-    pixels.fill([random.randint(0, 255), random.randint(0, 255), random.randint(0, 255)])
+    pixels.fill([
+        random.randint(0, 255),
+        random.randint(0, 255),
+        random.randint(0, 255),
+    ])
+    pixels.brightness = random.randrange(0.0, 1.0)
     time.sleep(1.0)
