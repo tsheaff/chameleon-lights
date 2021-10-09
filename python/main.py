@@ -96,6 +96,19 @@ class Streaker:
 
 streakers = []
 
+def makeStreakerConfig(time, color, speed):
+    return {
+        "frame": frameIndexAt(time),
+        "color": color,
+        "speed": speed,
+    }
+
+streakerConfig = {
+    makeStreakerConfig(0.0, Color('red'), 35),
+    makeStreakerConfig(4.0, Color('green'), 80),
+    makeStreakerConfig(9.0, Color('blue'), 20),
+}
+
 frame_index = 0
 
 def frameIndexAt(duration_elapsed):
@@ -105,24 +118,17 @@ while True:
     current_time = time.time()
     duration_elapsed = current_time - start_time
 
-    if frame_index == frameIndexAt(0.0):
-        streaker = Streaker(35, Color('red'))
-        streakers.append(streaker)
-        streaker.start()
-    elif frame_index == frameIndexAt(4.0):
-        streaker = Streaker(80, Color('green'))
-        streakers.append(streaker)
-        streaker.start()
-    elif frame_index == frameIndexAt(9.0):
-        streaker = Streaker(20, Color('blue'))
-        streakers.append(streaker)
-        streaker.start()
+    for config in streakerConfig:
+        if frame_index == config["frame"]:
+            streaker = Streaker(config["speed"], config["color"])
+            streakers.append(streaker)
+            streaker.start()
 
     updateFrame(duration_elapsed)
     applyColors()
 
     frame_cpu_duration = time.time() - current_time
-    # print("frame_cpu_duration ms:", frame_cpu_duration * 1000)
+    print("frame_cpu_duration ms:", frame_cpu_duration * 1000)
     sleep_duration = max(0, FRAME_DURATION - frame_cpu_duration)
     time.sleep(sleep_duration)
 
