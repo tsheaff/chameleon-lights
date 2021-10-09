@@ -12,7 +12,7 @@ FRAME_RATE = 60.0
 FRAME_DURATION = (1 / FRAME_RATE)
 
 pixels = neopixel.NeoPixel(PIN, NUM_PIXELS)
-pixel_colors = map(lambda x: Color("#000000"), [None] * NUM_PIXELS)
+pixel_colors = list(map(lambda x: Color("#000000"), [None] * NUM_PIXELS))
 print("pixel_colors", pixel_colors)
 start_time = time.time()
 
