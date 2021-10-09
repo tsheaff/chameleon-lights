@@ -94,6 +94,9 @@ class Streaker:
 # pulser = GradientPulser(9.0, Color('red'), Color('blue'))
 # pulser.start()
 
+def frameIndexAt(duration_elapsed):
+    return math.floor(duration_elapsed / FRAME_DURATION)
+
 streakers = []
 
 def makeStreakerConfig(time, color, speed):
@@ -110,9 +113,6 @@ streakerConfig = {
 }
 
 frame_index = 0
-
-def frameIndexAt(duration_elapsed):
-    return math.floor(duration_elapsed / FRAME_DURATION)
 
 while True:
     current_time = time.time()
