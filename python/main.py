@@ -37,9 +37,15 @@ def updateFrame(time_elapsed):
     print("update frame", time_elapsed)
 
 def applyColors():
+    tick0 = time.time()
     for i, c in enumerate(pixel_colors):
         pixels[i] = colorToRGB(c)
+    tick0 = time.time()
     pixels.show()
+    tick0 = time.time()
+    print("   applyColors tick1 is", tick1 - tick0)
+    print("   applyColors tick2 is", tick2 - tick1)
+
 
 def applyGradient():
     color1 = Color("#ff0000")
