@@ -40,9 +40,9 @@ def applyColors():
     tick0 = time.time()
     for i, c in enumerate(pixel_colors):
         pixels[i] = colorToRGB(c)
-    tick0 = time.time()
+    tick1 = time.time()
     pixels.show()
-    tick0 = time.time()
+    tick2 = time.time()
     print("   applyColors tick1 is", tick1 - tick0)
     print("   applyColors tick2 is", tick2 - tick1)
 
