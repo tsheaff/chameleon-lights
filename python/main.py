@@ -22,21 +22,25 @@ red = 0
 green = 0
 blue = 0
 
-def drawFrame(time_elapsed):
-    global red, green, blue
-    colorIndex = periodIndex(0.1, time_elapsed)
-    distance = 3
-    red += random.randint(-distance, distance)
-    green += random.randint(-distance, distance)
-    blue += random.randint(-distance, distance)
-    print("color is", [red % 256, green % 256, blue % 256])
-    pixels.fill([red % 256, green % 256, blue % 256])
-    # for hex in colors.pallette:
-    #     for i in range(NUM_LEDS):
-    #         pixels[i] = colors.hex_to_rgb(hex)
+# def drawFrame(time_elapsed):
+#     global red, green, blue
+#     colorIndex = periodIndex(1.0, time_elapsed)
+#     distance = 3
+#     red += random.randint(-distance, 2 * distance)
+#     green += random.randint(-distance, distance)
+#     blue += random.randint(-distance, distance)
+#     print("color is", [red % 256, green % 256, blue % 256])
+#     pixels.fill([red % 256, green % 256, blue % 256])
+#     # for hex in colors.pallette:
+#     #     for i in range(NUM_LEDS):
+#     #         pixels[i] = colors.hex_to_rgb(hex)
+
+# while True:
+#     current_time = time.time()
+#     time_elapsed = current_time - start_time
+#     drawFrame(time_elapsed)
+#     time.sleep(FRAME_DURATION)
 
 while True:
-    current_time = time.time()
-    time_elapsed = current_time - start_time
-    drawFrame(time_elapsed)
-    time.sleep(FRAME_DURATION)
+    pixels.fill([random.randint(0, 255), random.randint(0, 255), random.randint(0, 255)])
+    time.sleep(1.0)
