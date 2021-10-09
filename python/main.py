@@ -12,12 +12,19 @@ FRAME_RATE = 60.0
 FRAME_DURATION = (1 / FRAME_RATE)
 
 pixels = neopixel.NeoPixel(PIN, NUM_PIXELS)
-pixel_colors = map(lambda x: Color("#00ff00"), [None] * NUM_PIXELS)
+pixel_colors = map(lambda x: Color("#000000"), [None] * NUM_PIXELS)
 print("pixel_colors", pixel_colors)
 start_time = time.time()
 
-def periodIndex(period, time_elapsed):
-    return math.floor(time_elapsed / period)
+def interpolate(num1, num2, elapsed):
+    return num1 + (num2 - num1) * elapsed
+
+def interpolateColors(color1, color2, elapsed):
+    return Color(
+        red=interpolate(color1.red, color2.red, elapsed),
+        green=interpolate(color1.red, color2.red, elapsed),
+        blue=interpolate(color1.red, color2.red, elapsed),
+    )
 
 def colorToRGB(color):
     return [
@@ -33,13 +40,17 @@ def applyColors():
     for i, c in enumerate(pixel_colors):
         pixels[i] = colorToRGB(c)
 
+def applyGradient():
+    color1 = Color("#ff0000")
+    color2 = Color("#00ff00")
+    for i, c in enumerate(pixel_colors):
+        pixel_colors[i] = interpolateColors(color1, color2, i / NUM_PIXELS)
+
+applyGradient()
+
 while True:
     current_time = time.time()
     time_elapsed = current_time - start_time
     updateFrame(time_elapsed)
     applyColors()
     time.sleep(FRAME_DURATION)
-
-while True:
-    
-    time.sleep(1.0)
