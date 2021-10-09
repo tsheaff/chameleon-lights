@@ -70,6 +70,7 @@ class Streaker:
     def __init__(self, speed, color):
         self.speed = speed
         self.color = color
+        self.isStopped = False
 
     def start(self):
         self.timeBegan = time.time()
