@@ -51,6 +51,12 @@ applyGradient()
 while True:
     current_time = time.time()
     time_elapsed = current_time - start_time
+    tick0 = time.time()
     updateFrame(time_elapsed)
+    tick1 = time.time()
     applyColors()
+    tick2 = time.time()
+
+    print("tick1 is", tick1 - tick0)
+    print("tick2 is", tick2 - tick1)
     time.sleep(FRAME_DURATION)
