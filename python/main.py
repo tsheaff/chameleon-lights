@@ -37,31 +37,27 @@ def updateFrame(time_elapsed):
     print("update frame", time_elapsed)
 
 def applyColors():
-    tick0 = time.time()
     for i, c in enumerate(pixel_colors):
         pixels[i] = colorToRGB(c)
-    tick1 = time.time()
     pixels.show()
-    tick2 = time.time()
-    # time.sleep(0.1)
 
 def applyGradient():
     color1 = Color("#ff0000")
-    color2 = Color("#00ff00")
+    color2 = Color("#00ffff")
     for i, c in enumerate(pixel_colors):
         pixel_colors[i] = interpolateColors(color1, color2, i / NUM_PIXELS)
 
 applyGradient()
+applyColors()
+print("pixels", pixels)
 
 while True:
     current_time = time.time()
     time_elapsed = current_time - start_time
-    tick0 = time.time()
+
     updateFrame(time_elapsed)
-    tick1 = time.time()
     applyColors()
+
     frame_clock_time = time.time() - current_time
     sleep_time = max(0, FRAME_DURATION - frame_clock_time)
-    print("frame_clock_time", frame_clock_time)
-    print("sleep_time", sleep_time)
     time.sleep(sleep_time)
