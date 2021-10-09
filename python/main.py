@@ -60,7 +60,7 @@ while True:
     updateFrame(time_elapsed)
     tick1 = time.time()
     applyColors()
-    frame_clock_time = time.time() - time_elapsed
+    frame_clock_time = time.time() - current_time
     sleep_time = max(0, FRAME_DURATION - frame_clock_time)
     print("frame_clock_time", frame_clock_time)
     print("sleep_time", sleep_time)
