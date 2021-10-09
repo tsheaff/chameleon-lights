@@ -44,8 +44,8 @@ blue = 0
 while True:
     pixels.fill([
         random.randint(0, 255),
-        random.randint(0, 1),
-        random.randint(0, 1),
+        random.randint(0, 255),
+        random.randint(0, 255),
     ])
     print("pixels is", pixels[0])
     time.sleep(1.0)
