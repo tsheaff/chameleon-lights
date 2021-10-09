@@ -42,10 +42,6 @@ blue = 0
 #     time.sleep(FRAME_DURATION)
 
 while True:
-    pixels.fill([
-        random.randint(0, 255),
-        random.randint(0, 255),
-        random.randint(0, 255),
-    ])
+    pixels.fill([13, 0, 115])
     print("pixels is", pixels[0])
     time.sleep(1.0)
