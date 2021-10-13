@@ -60,6 +60,7 @@ class Cascade:
         self.easing_curve = easing_curve
         self.starting_position = starting_position
         self.is_stopped = False
+        self.previous_colors = pixel_colors.copy()
 
     def start(self):
         self.time_began = time.time()
@@ -83,18 +84,27 @@ class Cascade:
         end = curved_progress * (1 - self.starting_position) + self.starting_position
         start = (1 - curved_progress) * self.starting_position
 
-        # TODO: Fuzzing so that next pixel bleeds in, less "blocky" feeling
-        start_pixel = helpers.pixel_at(start, NUM_PIXELS)
-        end_pixel = helpers.pixel_at(end, NUM_PIXELS)
+        start_index, start_remainder = helpers.pixel_at(start, NUM_PIXELS)
+        end_index, end_remainder = helpers.pixel_at(end, NUM_PIXELS)
 
-        if start_pixel == end_pixel:
-            # don't divide by zero, just do nothing
-            # until at least one pixel is showing
+        if end == start:
+            # don't divide by zero, just do nothing until there's a spread
             return True
 
-        for i in range(start_pixel, end_pixel + 1):
-            pixel_progress = (i - start_pixel) / (end_pixel - start_pixel)
-            pixel_colors[i] = self.color_at(pixel_progress)
+        for i in range(start_index, min(end_index + 1, NUM_PIXELS - 1)):
+            pixel_progress = (i - start_index) / (end - start)
+            full_color = self.color_at(pixel_progress)
+
+            if i == start_index:
+                color_ratio = 1 - start_remainder
+            elif i == end_index + 1:
+                color_ratio = end_remainder
+            else:
+                color_ratio = 1
+
+            previous_color = self.previous_colors[i]
+            actual_color = helpers.interpolate_colors(previous_color, full_color, color_ratio)
+            pixel_colors[i] = actual_color
 
         if progress >= 1:
             self.stop()

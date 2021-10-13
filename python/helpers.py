@@ -34,7 +34,11 @@ def evaluate_bezier_at(t, controlPoints):
     points = curve.evaluate(t)
     return points[1][0]
 
+# returns a tuple where the 1st element is the integer index
+# and the 2nd element is the remainder toward the next pixel
 def pixel_at(x, num_pixels):
-    if x <= 0: return 0
-    if x >= 1: return num_pixels - 1
-    return math.floor(x * num_pixels)
+    x_clamped = max(0, min(1, x))
+    float = x_clamped * (num_pixels - 1)
+    index = math.floor(float)
+    remainder = float - index
+    return index, remainder
