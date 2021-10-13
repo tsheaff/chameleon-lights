@@ -100,7 +100,9 @@ class Cascade:
             return True
 
         for i in range(start_index, min(end_index + 1, NUM_PIXELS - 1)):
+            print("   APPLY: LOOP:     i", i)
             pixel_progress = (i - start_index) / (end - start)
+            print("   APPLY: LOOP:     pixel_progress", pixel_progress)
             full_color = self.color_at(pixel_progress)
 
             if i == start_index:
@@ -109,6 +111,8 @@ class Cascade:
                 color_ratio = end_remainder
             else:
                 color_ratio = 1
+
+            print("   APPLY: LOOP:     color_ratio", color_ratio)
 
             previous_color = self.previous_colors[i]
             actual_color = helpers.interpolate_colors(previous_color, full_color, color_ratio)
