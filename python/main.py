@@ -99,7 +99,7 @@ class Cascade:
             return True
 
         for i in range(start_index, min(end_index + 1, NUM_PIXELS - 1)):
-            pixel_progress = (i - start_index) / (NUM_PIXELS - 1)
+            pixel_progress = i / (NUM_PIXELS - 1)
             print("   APPLY:     LOOP: i", i)
             print("   APPLY:     LOOP: pixel_progress", pixel_progress)
 
