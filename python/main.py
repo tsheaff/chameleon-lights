@@ -35,7 +35,7 @@ def start_new_cascade():
 
 def update_frame(duration_elapsed):
     global cascade
-    print("FRAME: update_frame", duration_elapsed)
+    # print("FRAME: update_frame", duration_elapsed)
 
     if cascade is None or cascade.is_stopped:
         start_new_cascade()
