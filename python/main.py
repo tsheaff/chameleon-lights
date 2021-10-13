@@ -8,6 +8,7 @@ from easing_functions import *
 from colour import Color
 from enum import Enum
 import numpy as np
+from python.helpers import random_color
 
 class AnimationMode(Enum):
     CASCADE = 1
@@ -16,7 +17,7 @@ class AnimationMode(Enum):
 PIN = board.D18
 NUM_PIXELS = 50
 
-FRAME_RATE = 20.0 # TODO: What can the human eye perceive in these LEDs? Probably not 60fps
+FRAME_RATE = 20.0
 FRAME_DURATION = (1 / FRAME_RATE)
 
 pixels = neopixel.NeoPixel(PIN, NUM_PIXELS, auto_write=False)
@@ -74,25 +75,18 @@ class Cascade:
         return helpers.interpolate_colors(start_color, end_color, progress)
 
     def apply(self):
-        print("   APPLY")
         if self.is_stopped:
             return False
 
         time_elapsed = time.time() - self.time_began
         progress = time_elapsed / self.duration
-        print("   APPLY: progress", progress)
 
         curved_progress = helpers.evaluate_bezier_at(progress, self.easing_curve)
-        print("   APPLY: curved_progress", curved_progress)
         end = curved_progress * (1 - self.starting_position) + self.starting_position
-        print("   APPLY:   end", end)
         start = (1 - curved_progress) * self.starting_position
-        print("   APPLY: start", start)
 
         start_index, start_remainder = helpers.pixel_at(start, NUM_PIXELS)
         end_index, end_remainder = helpers.pixel_at(end, NUM_PIXELS)
-        print("   APPLY: start_index, start_remainder", start_index, start_remainder)
-        print("   APPLY:     end_index, end_remainder", end_index, end_remainder)
 
         if end == start:
             # don't divide by zero, just do nothing until there's a spread
@@ -100,8 +94,6 @@ class Cascade:
 
         for i in range(start_index, min(end_index + 1, NUM_PIXELS - 1)):
             pixel_progress = i / (NUM_PIXELS - 1)
-            print("   APPLY:     LOOP: i", i)
-            print("   APPLY:     LOOP: pixel_progress", pixel_progress)
 
             if i == start_index:
                 color_ratio = 1 - start_remainder
@@ -120,8 +112,8 @@ class Cascade:
 
         return True
 
-MIN_DURATION = 23.0
-MAX_DURATION = 26.0
+MIN_DURATION = 5.0
+MAX_DURATION = 10.0
 MIN_STARTING_POSITION = 0.2
 MAX_STARTING_POSITION = 0.8
 
@@ -131,8 +123,8 @@ class RandomCascade(Cascade):
 
         # TODO: Pick from a pallette, avoiding repeats (eg shuffle then iterate)
         gradient = [
-            Color('red'),
-            Color('blue'),
+            helpers.random_color(),
+            helpers.random_color(),
         ]
 
         easing_curve = np.asfortranarray([
