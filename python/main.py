@@ -126,8 +126,10 @@ class Cascade:
 
         return True
 
-MIN_DURATION = 20.0
+MIN_DURATION = 10.0
 MAX_DURATION = 20.0
+MIN_STARTING_POSITION = 0.2
+MAX_STARTING_POSITION = 0.8
 
 class RandomCascade(Cascade):
     def __init__(self):
@@ -144,7 +146,7 @@ class RandomCascade(Cascade):
             [ 0.0, uniform(0, 1), uniform(0, 1), 1.0 ],
         ])
 
-        starting_position = 0.3
+        starting_position = uniform(MIN_STARTING_POSITION, MAX_STARTING_POSITION)
 
         super().__init__(duration, gradient, easing_curve, starting_position)
 
