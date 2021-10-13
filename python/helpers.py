@@ -37,7 +37,7 @@ def evaluate_bezier_at(t, controlPoints):
     print("    evaluate_bezier_at: controlPoints", controlPoints)
     print("    evaluate_bezier_at: curve", curve)
     print("    evaluate_bezier_at: points", points)
-    return points[0][1] # return the y value for the point, which is in [x,y] form
+    return points[1][0]
 
 def pixel_at(x, num_pixels):
     if x <= 0: return 0
