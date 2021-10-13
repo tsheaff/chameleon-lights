@@ -31,12 +31,7 @@ def random_color():
 
 def evaluate_bezier_at(t, controlPoints):
     curve = bezier.Curve(controlPoints, degree=len(controlPoints[0]) - 1)
-
     points = curve.evaluate(t)
-    print("    evaluate_bezier_at: t", t)
-    print("    evaluate_bezier_at: controlPoints", controlPoints)
-    print("    evaluate_bezier_at: curve", curve)
-    print("    evaluate_bezier_at: points", points)
     return points[1][0]
 
 def pixel_at(x, num_pixels):
