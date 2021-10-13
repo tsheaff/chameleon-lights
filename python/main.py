@@ -24,16 +24,24 @@ start_time = time.time()
 
 cascade = None
 
+def start_new_cascade():
+    global cascade
+    if cascade is not None:
+        cascade.stop()
+
+    cascade = RandomCascade()
+    cascade.start()
+
 def update_frame(duration_elapsed):
     global cascade
     print("update_frame", duration_elapsed)
 
     if cascade is None or cascade.is_stopped:
-        cascade = RandomCascade()
+        start_new_cascade()
 
     did_finish = cascade.apply()
     if did_finish:
-        cascade = RandomCascade()
+        start_new_cascade()
 
 def apply_colors():
     for i, c in enumerate(pixel_colors):
