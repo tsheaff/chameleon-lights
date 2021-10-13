@@ -101,7 +101,7 @@ class Cascade:
 
         for i in range(start_index, min(end_index + 1, NUM_PIXELS - 1)):
             print("   APPLY: LOOP:     i", i)
-            pixel_progress = (i - start_index) / (end - start)
+            pixel_progress = (i - start_index) / (NUM_PIXELS - 1)
             print("   APPLY: LOOP:     pixel_progress", pixel_progress)
             full_color = self.color_at(pixel_progress)
 
@@ -115,7 +115,10 @@ class Cascade:
             print("   APPLY: LOOP:     color_ratio", color_ratio)
 
             previous_color = self.previous_colors[i]
+            print("   APPLY: LOOP:     previous_color", previous_color)
+            print("   APPLY: LOOP:     full_color", full_color)
             actual_color = helpers.interpolate_colors(previous_color, full_color, color_ratio)
+            print("   APPLY: LOOP:     actual_color", actual_color)
             pixel_colors[i] = actual_color
 
         if progress >= 1:
@@ -142,7 +145,7 @@ class RandomCascade(Cascade):
             [ 0.0, uniform(0, 1), uniform(0, 1), 1.0 ],
         ])
 
-        starting_position = uniform(0, 1)
+        starting_position = 0.3
 
         super().__init__(duration, gradient, easing_curve, starting_position)
 
