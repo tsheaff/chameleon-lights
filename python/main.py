@@ -7,7 +7,7 @@ from random import randrange, uniform
 from easing_functions import *
 from colour import Color
 from enum import Enum
-import numpy
+import numpy as np
 
 class AnimationMode(Enum):
     CASCADE = 1
@@ -122,9 +122,9 @@ class RandomCascade(Cascade):
             helpers.random_color(),
         ]
 
-        easing_curve = numpy.array([
-            [ uniform(0, 1), uniform(0, 1) ],
-            [ uniform(0, 1), uniform(0, 1) ],
+        easing_curve = np.asfortranarray([
+            [ 0.0, uniform(0, 1), uniform(0, 1) ],
+            [ 0.0, uniform(0, 1), uniform(0, 1) ],
         ])
 
         starting_position = uniform(0, 1)

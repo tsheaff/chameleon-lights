@@ -1,7 +1,7 @@
 import math
 from colour import Color
-from Bezier import Bezier
-import numpy
+import bezier
+import numpy as np
 from random import uniform
 
 # elapsed must be between 0 and 1
@@ -30,9 +30,12 @@ def random_color():
     )
 
 def evaluate_bezier_at(t, controlPoints):
-    points = Bezier.Curve([t], controlPoints)
+    curve = bezier.Curve(controlPoints, degree=2)
+
+    points = curve.evaluate(0.75)
     print("    evaluate_bezier_at: t", t)
     print("    evaluate_bezier_at: controlPoints", controlPoints)
+    print("    evaluate_bezier_at: curve", curve)
     print("    evaluate_bezier_at: points", points)
     return points[0][1] # return the y value for the point, which is in [x,y] form
 
