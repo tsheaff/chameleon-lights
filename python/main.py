@@ -70,7 +70,7 @@ class Cascade:
 
     def color_at(self, progress):
         start_color = self.gradient[0]
-        end_color = self.gradient[0]
+        end_color = self.gradient[1]
         return helpers.interpolate_colors(start_color, end_color, progress)
 
     def apply(self):
