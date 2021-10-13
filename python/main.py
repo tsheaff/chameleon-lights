@@ -82,7 +82,7 @@ class Cascade:
         print("  APPLY: time_elapsed", time_elapsed)
         print("  APPLY:        progress", progress)
 
-        curved_progress = helpers.evaluate_bezier_at(progress, self.easing_curve)
+        curved_progress = helpers.evaluate_bezier_at(0.3, self.easing_curve)
         print("  APPLY: curved_progress", curved_progress)
         end = curved_progress * (1 - self.starting_position) + self.starting_position
         print("  APPLY:   end", end)
