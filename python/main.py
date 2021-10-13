@@ -95,15 +95,13 @@ class Cascade:
             pixel_progress = i / (NUM_PIXELS - 1)
 
             if i == start_index:
-                # color_ratio = 1 - start_remainder
-                color_ratio = 1
+                color_ratio = 1 - start_remainder
             elif i == end_index:
-                # color_ratio = end_remainder
-                color_ratio = 1
+                color_ratio = end_remainder
             else:
                 color_ratio = 1
 
-            full_color = self.color_at(pixel_progress)    
+            full_color = self.color_at(pixel_progress)
             actual_color = full_color if color_ratio is 1 else helpers.interpolate_colors(self.previous_colors[i], full_color, color_ratio)
             pixel_colors[i] = actual_color
 
