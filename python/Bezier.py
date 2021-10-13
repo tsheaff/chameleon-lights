@@ -1,5 +1,7 @@
 """Bezier, a module for creating Bezier curves.
 Version 1.1, from < BezierCurveFunction-v1.ipynb > on 2019-05-02
+
+Source: https://github.com/torresjrjr/Bezier.py/blob/master/Bezier.py
 """
 
 import numpy as np

@@ -7,6 +7,7 @@ from random import randrange, uniform
 from easing_functions import *
 from colour import Color
 from enum import Enum
+import numpy
 
 class AnimationMode(Enum):
     CASCADE = 1
@@ -109,11 +110,13 @@ class RandomCascade(Cascade):
             helpers.random_color(),
         ]
 
-        easing_curve = [
+        easing_curve = numpy.array([
             [ uniform(0, 1), uniform(0, 3) ],
             [ uniform(0, 1), uniform(0, 3) ],
-        ]
+        ])
+
         starting_position = uniform(0, 1)
+
         super().__init__(duration, gradient, easing_curve, starting_position)
 
 def frameIndexAt(duration_elapsed):
