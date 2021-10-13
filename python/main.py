@@ -8,7 +8,6 @@ from easing_functions import *
 from colour import Color
 from enum import Enum
 import numpy as np
-from helpers import random_color
 
 class AnimationMode(Enum):
     CASCADE = 1
@@ -123,8 +122,8 @@ class RandomCascade(Cascade):
 
         # TODO: Pick from a pallette, avoiding repeats (eg shuffle then iterate)
         gradient = [
-            helpers.random_color(),
-            helpers.random_color(),
+            Color('red'),
+            Color('blue'),
         ]
 
         easing_curve = np.asfortranarray([
