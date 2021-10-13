@@ -95,9 +95,11 @@ class Cascade:
             pixel_progress = i / (NUM_PIXELS - 1)
 
             if i == start_index:
-                color_ratio = 1 - start_remainder
+                # color_ratio = 1 - start_remainder
+                color_ratio = 1
             elif i == end_index:
-                color_ratio = end_remainder
+                # color_ratio = end_remainder
+                color_ratio = 1
             else:
                 color_ratio = 1
 
