@@ -73,27 +73,19 @@ class Cascade:
         return helpers.interpolate_colors(start_color, end_color, progress)
 
     def apply(self):
-        print("  APPLY")
         if self.is_stopped:
             return False
 
         time_elapsed = time.time() - self.time_began
         progress = time_elapsed / self.duration
-        print("  APPLY: time_elapsed", time_elapsed)
-        print("  APPLY:        progress", progress)
 
         curved_progress = helpers.evaluate_bezier_at(progress, self.easing_curve)
-        print("  APPLY: curved_progress", curved_progress)
         end = curved_progress * (1 - self.starting_position) + self.starting_position
-        print("  APPLY:   end", end)
         start = (1 - curved_progress) * self.starting_position
-        print("  APPLY: start", start)
 
         # TODO: Fuzzing so that next pixel bleeds in, less "blocky" feeling
         start_pixel = helpers.pixel_at(start, NUM_PIXELS)
-        print("  APPLY: start_pixel", start_pixel)
         end_pixel = helpers.pixel_at(end, NUM_PIXELS)
-        print("  APPLY:   end_pixel", end_pixel)
 
         if start_pixel == end_pixel:
             # don't divide by zero, just do nothing
