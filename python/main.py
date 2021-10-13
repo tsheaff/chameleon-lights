@@ -123,8 +123,8 @@ class RandomCascade(Cascade):
         ]
 
         easing_curve = numpy.array([
-            [ uniform(0, 1), uniform(0, 3) ],
-            [ uniform(0, 1), uniform(0, 3) ],
+            [ uniform(0, 1), uniform(0, 1) ],
+            [ uniform(0, 1), uniform(0, 1) ],
         ])
 
         starting_position = uniform(0, 1)
