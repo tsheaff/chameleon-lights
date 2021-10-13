@@ -74,35 +74,34 @@ class Cascade:
         return helpers.interpolate_colors(start_color, end_color, progress)
 
     def apply(self):
-        # print("   APPLY")
+        print("   APPLY")
         if self.is_stopped:
             return False
 
         time_elapsed = time.time() - self.time_began
         progress = time_elapsed / self.duration
-        # print("   APPLY: progress", progress)
+        print("   APPLY: progress", progress)
 
         curved_progress = helpers.evaluate_bezier_at(progress, self.easing_curve)
-        # print("   APPLY: curved_progress", curved_progress)
+        print("   APPLY: curved_progress", curved_progress)
         end = curved_progress * (1 - self.starting_position) + self.starting_position
-        # print("   APPLY:   end", end)
+        print("   APPLY:   end", end)
         start = (1 - curved_progress) * self.starting_position
-        # print("   APPLY: start", start)
+        print("   APPLY: start", start)
 
         start_index, start_remainder = helpers.pixel_at(start, NUM_PIXELS)
         end_index, end_remainder = helpers.pixel_at(end, NUM_PIXELS)
-        # print("   APPLY: start_index, start_remainder", start_index, start_remainder)
-        # print("   APPLY:     end_index, end_remainder", end_index, end_remainder)
+        print("   APPLY: start_index, start_remainder", start_index, start_remainder)
+        print("   APPLY:     end_index, end_remainder", end_index, end_remainder)
 
         if end == start:
             # don't divide by zero, just do nothing until there's a spread
             return True
 
         for i in range(start_index, min(end_index + 1, NUM_PIXELS - 1)):
-            # print("   APPLY: LOOP:     i", i)
             pixel_progress = (i - start_index) / (NUM_PIXELS - 1)
-            # print("   APPLY: LOOP:     pixel_progress", pixel_progress)
-            full_color = self.color_at(pixel_progress)
+            print("   APPLY:     LOOP: i", i)
+            print("   APPLY:     LOOP: pixel_progress", pixel_progress)
 
             if i == start_index:
                 color_ratio = 1 - start_remainder
@@ -111,13 +110,8 @@ class Cascade:
             else:
                 color_ratio = 1
 
-            # print("   APPLY: LOOP:     color_ratio", color_ratio)
-
-            previous_color = self.previous_colors[i]
-            # print("   APPLY: LOOP:     previous_color", previous_color)
-            # print("   APPLY: LOOP:     full_color", full_color)
-            actual_color = helpers.interpolate_colors(previous_color, full_color, color_ratio)
-            # print("   APPLY: LOOP:     actual_color", actual_color)
+            full_color = self.color_at(pixel_progress)    
+            actual_color = full_color if color_ratio is 1 else helpers.interpolate_colors(self.previous_colors[i], full_color, color_ratio)
             pixel_colors[i] = actual_color
 
         if progress >= 1:
