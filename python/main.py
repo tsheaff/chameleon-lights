@@ -89,6 +89,7 @@ class Cascade:
         start = (1 - curved_progress) * self.starting_position
         print("  APPLY: start", start)
 
+        # TODO: Fuzzing so that next pixel bleeds in, less "blocky" feeling
         start_pixel = helpers.pixel_at(start, NUM_PIXELS)
         print("  APPLY: start_pixel", start_pixel)
         end_pixel = helpers.pixel_at(end, NUM_PIXELS)
@@ -123,8 +124,8 @@ class RandomCascade(Cascade):
         ]
 
         easing_curve = np.asfortranarray([
-            [ 0.0, 0.3, 0.7, 1.0 ],
-            [ 0.0, 0.8, 0.2, 1.0 ],
+            [ 0.0, uniform(0, 1), uniform(0, 1), 1.0 ],
+            [ 0.0, uniform(0, 1), uniform(0, 1), 1.0 ],
         ])
 
         starting_position = uniform(0, 1)
