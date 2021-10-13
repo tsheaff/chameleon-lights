@@ -107,7 +107,7 @@ class Cascade:
 
             if i == start_index:
                 color_ratio = 1 - start_remainder
-            elif i == end_index + 1:
+            elif i == end_index:
                 color_ratio = end_remainder
             else:
                 color_ratio = 1
