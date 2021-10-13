@@ -2,8 +2,15 @@ import board
 import neopixel
 import time
 import math
-import random
+import helpers
+from random import randrange, uniform
+from easing_functions import *
 from colour import Color
+from enum import Enum
+
+class AnimationMode(Enum):
+    CASCADE = 1
+    STEADY = 2
 
 PIN = board.D18
 NUM_PIXELS = 50
@@ -15,104 +22,94 @@ pixels = neopixel.NeoPixel(PIN, NUM_PIXELS, auto_write=False)
 pixel_colors = list(map(lambda x: Color("#000000"), [None] * NUM_PIXELS))
 start_time = time.time()
 
-# elapsed must be between 0 and 1
-def interpolate(num1, num2, elapsed):
-    return num1 + (num2 - num1) * elapsed
+cascade = None
 
-def interpolateColors(color1, color2, elapsed):
-    return Color(
-        red=interpolate(color1.red, color2.red, elapsed),
-        green=interpolate(color1.green, color2.green, elapsed),
-        blue=interpolate(color1.blue, color2.blue, elapsed),
-    )
+def update_frame(duration_elapsed):
+    global cascade
+    print("update_frame", duration_elapsed)
 
-def colorToRGB(color):
-    return [
-        math.floor(color.red * 255),
-        math.floor(color.green * 255),
-        math.floor(color.blue * 255),
-    ]
+    if cascade is None or cascade.is_stopped:
+        cascade = RandomCascade()
 
-def updateFrame(duration_elapsed):
-    print("updateFrame", duration_elapsed)
-    # pulser.apply()
-    for streaker in streakers:
-        streaker.apply()
+    did_finish = cascade.apply()
+    if did_finish:
+        cascade = RandomCascade()
 
-def applyColors():
+def apply_colors():
     for i, c in enumerate(pixel_colors):
-        pixels[i] = colorToRGB(c)
+        pixels[i] = helpers.color_to_rgb(c)
     pixels.show()
 
-def applyGradient(color1, color2):
-    for i, c in enumerate(pixel_colors):
-        pixel_colors[i] = interpolateColors(color1, color2, i / NUM_PIXELS)
-
-class GradientPulser:
-    def __init__(self, period, color1, color2):
-        self.period = period
-        self.color1 = color1
-        self.color2 = color2
+class Cascade:
+    def __init__(self, duration, gradient, easing_curve, starting_position):
+        self.duration = duration
+        self.gradient = gradient
+        self.easing_curve = easing_curve
+        self.starting_position = starting_position
+        self.is_stopped = False
 
     def start(self):
-        self.timeBegan = time.time()
-
-    def apply(self):
-        time_elapsed = time.time() - self.timeBegan
-        x = math.pi * time_elapsed / self.period
-        current_amplitude = abs(math.sin(x))
-        color1Now = interpolateColors(self.color1, self.color2, current_amplitude)
-        color2Now = interpolateColors(self.color2, self.color1, current_amplitude)
-        applyGradient(color1Now, color2Now)
-
-class Streaker:
-    # speed in pixels per second
-    def __init__(self, speed, color):
-        self.speed = speed
-        self.color = color
-        self.isStopped = False
-
-    def start(self):
-        self.timeBegan = time.time()
+        self.time_began = time.time()
 
     def stop(self):
-        self.isStopped = True
+        self.is_stopped = True
+
+    def color_at(self, progress):
+        start_color = self.gradient[0]
+        end_color = self.gradient[0]
+        return helpers.interpolate_colors(start_color, end_color, progress)
 
     def apply(self):
-        # TODO: Actually dealloc it
-        if self.isStopped:
-            return
+        if self.is_stopped:
+            return False
 
-        time_elapsed = time.time() - self.timeBegan
-        max_pixel = min(NUM_PIXELS, math.floor(self.speed * time_elapsed))
-        for i in range(0, max_pixel):
-            pixel_colors[i] = self.color
+        time_elapsed = time.time() - self.time_began
+        progress = time_elapsed / self.duration
 
-        if max_pixel == NUM_PIXELS:
+        curved_progress = helpers.evaluate_bezier_at(progress, self.easing_curve)
+        end = curved_progress * (1 - self.starting_position) + self.starting_position
+        start = (1 - curved_progress) * self.starting_position
+
+        start_pixel = math.floor(NUM_PIXELS * start)
+        end_pixel = math.floor(NUM_PIXELS * end)
+
+        if start_pixel == end_pixel:
+            # don't divide by zero, just do nothing
+            # until at least one pixel is showing
+            return True
+
+        for i in range(start_pixel, end_pixel + 1):
+            pixel_progress = (i - start_pixel) / (end_pixel - start_pixel)
+            pixel_colors[i] = self.color_at(pixel_progress)
+
+        if progress >= 1:
             self.stop()
+            return False
 
-# pulser = GradientPulser(9.0, Color('red'), Color('blue'))
-# pulser.start()
+        return True
+
+MIN_DURATION = 3.0
+MAX_DURATION = 20.0
+
+class RandomCascade(Cascade):
+    def __init__(self):
+        duration = uniform(MIN_DURATION, MAX_DURATION)
+
+        # TODO: Pick from a pallette, avoiding repeats (eg shuffle then iterate)
+        gradient = [
+            helpers.random_color(),
+            helpers.random_color(),
+        ]
+
+        easing_curve = [
+            [ uniform(0, 1), uniform(0, 3) ],
+            [ uniform(0, 1), uniform(0, 3) ],
+        ]
+        starting_position = uniform(0, 1)
+        super().__init__(duration, gradient, easing_curve, starting_position)
 
 def frameIndexAt(duration_elapsed):
     return math.floor(duration_elapsed / FRAME_DURATION)
-
-streakers = []
-
-def makeStreakerConfig(time, color, speed):
-    return {
-        "frame": frameIndexAt(time),
-        "color": color,
-        "speed": speed,
-    }
-
-streakerConfig = [
-    makeStreakerConfig(0.0, 'red', 35),
-    makeStreakerConfig(4.0, 'green', 80),
-    makeStreakerConfig(4.5, 'blue', 20),
-    makeStreakerConfig(5.7, '#4eaf00', 100),
-    makeStreakerConfig(6.5, 'red', 12),
-]
 
 frame_index = 0
 
@@ -120,14 +117,8 @@ while True:
     current_time = time.time()
     duration_elapsed = current_time - start_time
 
-    for config in streakerConfig:
-        if frame_index == config["frame"]:
-            streaker = Streaker(config["speed"], Color(config["color"]))
-            streakers.append(streaker)
-            streaker.start()
-
-    updateFrame(duration_elapsed)
-    applyColors()
+    update_frame(duration_elapsed)
+    apply_colors()
 
     frame_cpu_duration = time.time() - current_time
     print("frame_cpu_duration ms:", frame_cpu_duration * 1000)
