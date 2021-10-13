@@ -123,7 +123,7 @@ class RandomCascade(Cascade):
         # TODO: Pick from a pallette, avoiding repeats (eg shuffle then iterate)
         gradient = [
             Color('red'),
-            Color('blue'),
+            Color('black'),
         ]
 
         easing_curve = np.asfortranarray([
