@@ -8,7 +8,7 @@ from easing_functions import *
 from colour import Color
 from enum import Enum
 import numpy as np
-from python.helpers import random_color
+from helpers import random_color
 
 class AnimationMode(Enum):
     CASCADE = 1
