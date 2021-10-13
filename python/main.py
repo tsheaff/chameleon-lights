@@ -74,18 +74,26 @@ class Cascade:
         return helpers.interpolate_colors(start_color, end_color, progress)
 
     def apply(self):
+        print(" ")
+        print("   APPLY")
         if self.is_stopped:
             return False
 
         time_elapsed = time.time() - self.time_began
         progress = time_elapsed / self.duration
+        print("   APPLY: progress", progress)
 
         curved_progress = helpers.evaluate_bezier_at(progress, self.easing_curve)
+        print("   APPLY: curved_progress", curved_progress)
         end = curved_progress * (1 - self.starting_position) + self.starting_position
+        print("   APPLY:   end", end)
         start = (1 - curved_progress) * self.starting_position
+        print("   APPLY: start", start)
 
         start_index, start_remainder = helpers.pixel_at(start, NUM_PIXELS)
         end_index, end_remainder = helpers.pixel_at(end, NUM_PIXELS)
+        print("   APPLY: start_index, start_remainder", start_index, start_remainder)
+        print("   APPLY:     end_index, end_remainder", end_index, end_remainder)
 
         if end == start:
             # don't divide by zero, just do nothing until there's a spread
@@ -112,7 +120,7 @@ class Cascade:
 
         return True
 
-MIN_DURATION = 3.0
+MIN_DURATION = 20.0
 MAX_DURATION = 20.0
 
 class RandomCascade(Cascade):
