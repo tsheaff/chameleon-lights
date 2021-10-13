@@ -40,8 +40,8 @@ def update_frame(duration_elapsed):
     if cascade is None or cascade.is_stopped:
         start_new_cascade()
 
-    did_finish = cascade.apply()
-    if did_finish:
+    is_alive = cascade.apply()
+    if not is_alive:
         start_new_cascade()
 
 def apply_colors():
