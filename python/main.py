@@ -51,6 +51,10 @@ def apply_colors():
 
 class Cascade:
     def __init__(self, duration, gradient, easing_curve, starting_position):
+        print("   Cascade: duration", duration)
+        print("   Cascade: gradient", gradient)
+        print("   Cascade: easing_curve", easing_curve)
+        print("   Cascade: starting_position", starting_position)
         self.duration = duration
         self.gradient = gradient
         self.easing_curve = easing_curve
@@ -85,9 +89,9 @@ class Cascade:
         start = (1 - curved_progress) * self.starting_position
         print("  APPLY: start", start)
 
-        start_pixel = math.floor(NUM_PIXELS * start)
+        start_pixel = helpers.pixel_at(start, NUM_PIXELS)
         print("  APPLY: start_pixel", start_pixel)
-        end_pixel = math.floor(NUM_PIXELS * end)
+        end_pixel = helpers.pixel_at(end, NUM_PIXELS)
         print("  APPLY:   end_pixel", end_pixel)
 
         if start_pixel == end_pixel:
