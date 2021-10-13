@@ -148,7 +148,7 @@ while True:
     apply_colors()
 
     frame_cpu_duration = time.time() - current_time
-    print("FRAME: frame_cpu_duration ms:", frame_cpu_duration * 1000)
+    # print("FRAME: frame_cpu_duration ms:", frame_cpu_duration * 1000)
     sleep_duration = max(0, FRAME_DURATION - frame_cpu_duration)
     time.sleep(sleep_duration)
 
