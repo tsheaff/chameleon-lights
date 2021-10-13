@@ -30,7 +30,7 @@ def random_color():
     )
 
 def evaluate_bezier_at(t, controlPoints):
-    curve = bezier.Curve(controlPoints, degree=2)
+    curve = bezier.Curve(controlPoints, degree=3)
 
     points = curve.evaluate(0.75)
     print("    evaluate_bezier_at: t", t)

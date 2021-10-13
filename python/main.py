@@ -123,8 +123,8 @@ class RandomCascade(Cascade):
         ]
 
         easing_curve = np.asfortranarray([
-            [ 0.0, uniform(0, 1), uniform(0, 1) ],
-            [ 0.0, uniform(0, 1), uniform(0, 1) ],
+            [ 0.0, 0.3, 0.7, 1.0 ],
+            [ 0.0, 0.8, 0.2, 1.0 ],
         ])
 
         starting_position = uniform(0, 1)
