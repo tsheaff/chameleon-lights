@@ -35,7 +35,7 @@ def start_new_cascade():
 
 def update_frame(duration_elapsed):
     global cascade
-    print("update_frame", duration_elapsed)
+    print("FRAME: update_frame", duration_elapsed)
 
     if cascade is None or cascade.is_stopped:
         start_new_cascade()
@@ -69,18 +69,26 @@ class Cascade:
         return helpers.interpolate_colors(start_color, end_color, progress)
 
     def apply(self):
+        print("  APPLY")
         if self.is_stopped:
             return False
 
         time_elapsed = time.time() - self.time_began
         progress = time_elapsed / self.duration
+        print("  APPLY: time_elapsed", time_elapsed)
+        print("  APPLY:        progress", progress)
 
         curved_progress = helpers.evaluate_bezier_at(progress, self.easing_curve)
+        print("  APPLY: curved_progress", curved_progress)
         end = curved_progress * (1 - self.starting_position) + self.starting_position
+        print("  APPLY:   end", end)
         start = (1 - curved_progress) * self.starting_position
+        print("  APPLY: start", start)
 
         start_pixel = math.floor(NUM_PIXELS * start)
+        print("  APPLY: start_pixel", start_pixel)
         end_pixel = math.floor(NUM_PIXELS * end)
+        print("  APPLY:   end_pixel", end_pixel)
 
         if start_pixel == end_pixel:
             # don't divide by zero, just do nothing
@@ -132,7 +140,7 @@ while True:
     apply_colors()
 
     frame_cpu_duration = time.time() - current_time
-    print("frame_cpu_duration ms:", frame_cpu_duration * 1000)
+    print("FRAME: frame_cpu_duration ms:", frame_cpu_duration * 1000)
     sleep_duration = max(0, FRAME_DURATION - frame_cpu_duration)
     time.sleep(sleep_duration)
 
