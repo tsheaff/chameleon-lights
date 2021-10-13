@@ -30,8 +30,11 @@ def random_color():
     )
 
 def evaluate_bezier_at(t, controlPoints):
-    point = Bezier.Curve([t], controlPoints)[0]
-    return point[1] # return the y value for the point, which is in [x,y] form
+    points = Bezier.Curve([t], controlPoints)
+    print("    evaluate_bezier_at: t", t)
+    print("    evaluate_bezier_at: controlPoints", controlPoints)
+    print("    evaluate_bezier_at: points", points)
+    return points[0][1] # return the y value for the point, which is in [x,y] form
 
 def pixel_at(x, num_pixels):
     if x <= 0: return 0
