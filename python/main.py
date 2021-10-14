@@ -130,7 +130,7 @@ class Twinkle(Animator):
     def __init__(self):
         duration = uniform(Twinkle.MIN_DURATION, Twinkle.MAX_DURATION)
         super().__init__(duration, AnimatorType.TWINKLE)
-        self.pixel_periods = map(lambda n: uniform(0.1, 1.0), [0] * self.num_pixels)
+        self.pixel_periods = list(map(lambda n: uniform(0.1, 1.0), [0] * self.num_pixels))
 
         print("Starting new Twinkle")
         print("   --> duration", self.duration)
