@@ -103,8 +103,8 @@ class RandomCascade(Cascade):
     MIN_DURATION = 5.0
     MAX_DURATION = 5.0
 
-    MIN_STARTING_POSITION = 0.2
-    MAX_STARTING_POSITION = 0.8
+    MIN_STARTING_POSITION = 0.5 # 0.2
+    MAX_STARTING_POSITION = 0.5 # 0.8
 
     def __init__(self):
         duration = uniform(RandomCascade.MIN_DURATION, RandomCascade.MAX_DURATION)
