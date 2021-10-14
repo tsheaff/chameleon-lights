@@ -47,4 +47,6 @@ def pick_next_gradient():
         if set_name_index >= len(all_set_names):
             set_name_index = 0
         
-    return Color(set[set_index])
+    color_rgb = gradient_sets[set_name][set_index]
+    print("chose color", color_rgb)
+    return Color(color_rgb)
