@@ -99,8 +99,8 @@ class Cascade(Animator):
         return True
 
 class RandomCascade(Cascade):
-    MIN_DURATION = 3.0
-    MAX_DURATION = 5.0
+    MIN_DURATION = 5.0
+    MAX_DURATION = 15.0
 
     MIN_STARTING_POSITION = 0.2
     MAX_STARTING_POSITION = 0.8
@@ -125,23 +125,23 @@ class RandomCascade(Cascade):
 
 class Twinkle(Animator):
     MIN_DURATION = 5.0
-    MAX_DURATION = 10.0
+    MAX_DURATION = 15.0
 
     def __init__(self):
         duration = uniform(Twinkle.MIN_DURATION, Twinkle.MAX_DURATION)
         super().__init__(duration, AnimatorType.TWINKLE)
-        self.pixel_periods = list(map(lambda n: uniform(0.1, 1.0), [0] * self.num_pixels))
+        self.twinkle_periods = list(map(lambda n: uniform(0.5, 5.0), [0] * self.num_pixels))
 
         print("Starting new Twinkle")
         print("   --> duration", self.duration)
-        print("   --> pixel_periods", self.pixel_periods)
+        print("   --> twinkle_periods", self.twinkle_periods)
 
     def update_frame(self):
         if self.is_stopped:
             return False
 
         black = Color('#000000')
-        for i, period in enumerate(self.pixel_periods):
+        for i, period in enumerate(self.twinkle_periods):
             intensity = 0.5 * math.cos(math.pi * self.time_elapsed / period) + 0.5
             original_color = self.previous_colors[i]
             conductor.pixel_colors[i] = helpers.interpolate_colors(black, original_color, intensity)
