@@ -210,9 +210,12 @@ class Sweep(Animator):
             return False
 
         intensity = 0.5 * math.cos(math.pi * self.time_elapsed / self.period) + 0.5
+        print("   -> Sweep: updating frame: intensity", intensity)
         for i in range(0, self.num_pixels):
             # TODO: Figure out why this isn't working for the very ends
-            inverted_color = self.previous_colors[self.num_pixels - 1 - i]
+            inverted_i = self.num_pixels - 1 - i
+            print("   -> Sweep: LOOP: (i, inverted_i)", i, inverted_i)
+            inverted_color = self.previous_colors[inverted_i]
             original_color = self.previous_colors[i]
             conductor.pixel_colors[i] = helpers.interpolate_colors(inverted_color, original_color, intensity)
 
