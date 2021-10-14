@@ -2,10 +2,14 @@ from colour import Color
 
 gradient_sets = {
     "rgb": [
-        # [
-        #     '#5FAD56',
-        #     '#F2C14E',
-        # ],
+        [
+            '#ff0000',
+            '#0000ff',
+        ],
+        [
+            '#5FAD56',
+            '#F2C14E',
+        ],
         [
             '#F78154',
             '#4D9078',
