@@ -102,8 +102,8 @@ class Cascade(Animator):
         return True
 
 class RandomCascade(Cascade):
-    MIN_DURATION = 5.0
-    MAX_DURATION = 5.0
+    MIN_DURATION = 2.0
+    MAX_DURATION = 2.0
 
     MIN_STARTING_POSITION = 0.5 # 0.2
     MAX_STARTING_POSITION = 0.5 # 0.8
@@ -123,8 +123,8 @@ class RandomCascade(Cascade):
         super().__init__(duration, gradient, easing_curve, starting_position)
 
 class Twinkle(Animator):
-    MIN_DURATION = 10.0
-    MAX_DURATION = 10.0
+    MIN_DURATION = 5.0
+    MAX_DURATION = 5.0
 
     MIN_TWINKLE_PERIOD = 0.2
     MAX_TWINKLE_PERIOD = 2.0
