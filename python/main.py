@@ -4,7 +4,7 @@ import time
 import math
 import helpers
 import pallettes
-from random import randint, uniform
+import random
 from easing_functions import *
 from colour import Color
 from enum import Enum
@@ -110,16 +110,16 @@ class RandomCascade(Cascade):
     MAX_STARTING_POSITION = 0.8
 
     def __init__(self):
-        duration = uniform(RandomCascade.MIN_DURATION, RandomCascade.MAX_DURATION)
+        duration = random.uniform(RandomCascade.MIN_DURATION, RandomCascade.MAX_DURATION)
 
         gradient = pallettes.pick_next_gradient()
 
         easing_curve = np.asfortranarray([
-            [ 0.0, uniform(0, 1), uniform(0, 1), 1.0 ],
-            [ 0.0, uniform(0, 1), uniform(0, 1), 1.0 ],
+            [ 0.0, random.uniform(0, 1), random.uniform(0, 1), 1.0 ],
+            [ 0.0, random.uniform(0, 1), random.uniform(0, 1), 1.0 ],
         ])
 
-        starting_position = uniform(RandomCascade.MIN_STARTING_POSITION, RandomCascade.MAX_STARTING_POSITION)
+        starting_position = random.uniform(RandomCascade.MIN_STARTING_POSITION, RandomCascade.MAX_STARTING_POSITION)
 
         super().__init__(duration, gradient, easing_curve, starting_position)
 
@@ -131,9 +131,9 @@ class Twinkle(Animator):
     MAX_TWINKLE_PERIOD = 2.0
 
     def __init__(self):
-        duration = uniform(Twinkle.MIN_DURATION, Twinkle.MAX_DURATION)
+        duration = random.uniform(Twinkle.MIN_DURATION, Twinkle.MAX_DURATION)
         super().__init__(duration, AnimatorType.TWINKLE)
-        self.twinkle_periods = list(map(lambda n: uniform(Twinkle.MIN_TWINKLE_PERIOD, Twinkle.MAX_TWINKLE_PERIOD), [0] * self.num_pixels))
+        self.twinkle_periods = list(map(lambda n: random.uniform(Twinkle.MIN_TWINKLE_PERIOD, Twinkle.MAX_TWINKLE_PERIOD), [0] * self.num_pixels))
 
         print("Starting new Twinkle")
         print("   --> duration", self.duration)
@@ -162,9 +162,9 @@ class Pulse(Animator):
     MAX_PERIOD = 2.0
 
     def __init__(self):
-        duration = uniform(Pulse.MIN_DURATION, Pulse.MAX_DURATION)
+        duration = random.uniform(Pulse.MIN_DURATION, Pulse.MAX_DURATION)
         super().__init__(duration, AnimatorType.PULSE)
-        self.period = uniform(Pulse.MIN_PERIOD, Pulse.MAX_PERIOD)
+        self.period = random.uniform(Pulse.MIN_PERIOD, Pulse.MAX_PERIOD)
 
         print("Starting new Pulse")
         print("   --> duration", self.duration)
@@ -193,9 +193,9 @@ class Sweep(Animator):
     MAX_PERIOD = 2.0
 
     def __init__(self):
-        duration = uniform(Sweep.MIN_DURATION, Sweep.MAX_DURATION)
+        duration = random.uniform(Sweep.MIN_DURATION, Sweep.MAX_DURATION)
         super().__init__(duration, AnimatorType.SWEEP)
-        self.period = uniform(Sweep.MIN_PERIOD, Sweep.MAX_PERIOD)
+        self.period = random.uniform(Sweep.MIN_PERIOD, Sweep.MAX_PERIOD)
 
         print("Starting new Sweep")
         print("   --> duration", self.duration)
@@ -231,9 +231,7 @@ class Conductor:
         self.current_animator = None
 
     def get_random_type(self):
-        rand = randint(1, AnimatorTypeMax)
-        print("rand is", rand)
-        return AnimatorType(rand)
+        return random.choice(list(AnimatorType))
 
     def get_next_animator(self, previous_animator):
         if previous_animator is None:
