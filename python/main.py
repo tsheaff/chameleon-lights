@@ -99,8 +99,8 @@ class Cascade(Animator):
         return True
 
 class RandomCascade(Cascade):
-    MIN_DURATION = 8.0
-    MAX_DURATION = 20.0
+    MIN_DURATION = 3.0
+    MAX_DURATION = 5.0
 
     MIN_STARTING_POSITION = 0.2
     MAX_STARTING_POSITION = 0.8
