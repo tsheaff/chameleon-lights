@@ -149,7 +149,7 @@ class Twinkle(Animator):
 
         print("Starting new Twinkle")
         print("    --> duration", self.duration)
-        print("    --> twinkle_periods", self.twinkle_periods)
+        print("    --> twinkle_periods length", len(self.twinkle_periods))
 
     def update_frame(self):
         if self.is_stopped:
