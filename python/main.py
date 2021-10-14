@@ -154,7 +154,7 @@ class Twinkle(Animator):
 class Conductor:
     PIN = board.D18
     PIXELS_PER_STRAND = 50
-    NUM_STRANDS = 1
+    NUM_STRANDS = 5
     NUM_PIXELS = PIXELS_PER_STRAND * NUM_STRANDS
 
     FRAME_RATE = 20.0
