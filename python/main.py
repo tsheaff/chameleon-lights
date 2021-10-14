@@ -233,7 +233,7 @@ class Sweep(Animator):
 class Conductor:
     PIN = board.D18
     PIXELS_PER_STRAND = 50
-    NUM_STRANDS = 2
+    NUM_STRANDS = 3
     NUM_PIXELS = PIXELS_PER_STRAND * NUM_STRANDS
 
     FRAME_RATE = 20.0
@@ -254,11 +254,11 @@ class Conductor:
 
         type = self.get_random_type()
         if type == AnimatorType.CASCADE:
-            return Sweep()
+            return RandomCascade()
         elif type == AnimatorType.TWINKLE:
-            return Sweep()
+            return Twinkle()
         elif type == AnimatorType.PULSE:
-            return Sweep()
+            return Pulse()
         elif type == AnimatorType.SWEEP:
             return Sweep()
 
