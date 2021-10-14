@@ -1,71 +1,64 @@
+import random
 from colour import Color
 
-gradient_sets = {
-    "rgb": [
-        [
-            '#00ff00',
-            '#ff0000',
-        ],
-        [
-            '#ff0000',
-            '#ffff00',
-        ],
-        [
-            '#ff0000',
-            '#0000ff',
-        ],
-        [
-            '#0000ff',
-            '#ffff00',
-        ],
-        [
-            '#00ff00',
-            '#0000ff',
-        ],
-        [
-            '#ffc8c8',
-            '#ff00ff',
-        ],
-        [
-            '#ffffff',
-            '#ffffff',
-        ],
-        [
-            '#ffff00',
-            '#ffff00',
-        ],
-        [
-            '#0000ff',
-            '#0000ff',
-        ],
-        [
-            '#ff0000',
-            '#ff0000',
-        ],
+gradient_set = [
+    [
+        '#00ff00',
+        '#ff0000',
     ],
-}
+    [
+        '#ff0000',
+        '#ffff00',
+    ],
+    [
+        '#ff0000',
+        '#0000ff',
+    ],
+    [
+        '#0000ff',
+        '#ffff00',
+    ],
+    [
+        '#00ff00',
+        '#0000ff',
+    ],
+    [
+        '#ffc8c8',
+        '#ff00ff',
+    ],
+    [
+        '#ffffff',
+        '#ffffff',
+    ],
+    [
+        '#ffff00',
+        '#ffff00',
+    ],
+    [
+        '#0000ff',
+        '#0000ff',
+    ],
+    [
+        '#ff0000',
+        '#ff0000',
+    ],
+],
 
-set_name_index = 0
 set_index = 0
-all_set_names = list(gradient_sets.keys())
+current_shuffle = random.shuffle(gradient_set)
 
-# must make sure indexes are in range first
-def get_current_gradient():
-    set_name = all_set_names[set_name_index]
-    return gradient_sets[set_name][set_index]
+def reshuffle_set():
+    global current_shuffle
+    current_shuffle = random.shuffle()
 
+# TODO: Randomize the set first
 def get_next_gradient():
-    global set_index, set_name_index
-    set_name = all_set_names[set_name_index]
-    set = gradient_sets[set_name]
-    if set_index >= len(set):
+    global set_index
+    if set_index >= len(current_shuffle):
+        reshuffle_set()
         set_index = 0
-        set_name_index += 1
-        if set_name_index >= len(all_set_names):
-            set_name_index = 0
-        return get_current_gradient()
 
-    gradient = get_current_gradient()
+    gradient = current_shuffle[set_index]
     set_index += 1
     return gradient
     
