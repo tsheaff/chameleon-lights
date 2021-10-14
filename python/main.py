@@ -231,7 +231,9 @@ class Conductor:
         self.current_animator = None
 
     def get_random_type(self):
-        return AnimatorType(randint(1, AnimatorTypeMax))
+        rand = randint(1, AnimatorTypeMax)
+        print("rand is", rand)
+        return AnimatorType(rand)
 
     def get_next_animator(self, previous_animator):
         if previous_animator is None:
