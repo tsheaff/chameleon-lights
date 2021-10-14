@@ -116,10 +116,10 @@ class Cascade(Animator):
 
 class RandomCascade(Cascade):
     MIN_DURATION = 3.0
-    MAX_DURATION = 7.0
+    MAX_DURATION = 30.0
 
-    MIN_STARTING_POSITION = 0.2
-    MAX_STARTING_POSITION = 0.8
+    MIN_STARTING_POSITION = 0.05
+    MAX_STARTING_POSITION = 0.95
 
     def __init__(self):
         duration = random.uniform(RandomCascade.MIN_DURATION, RandomCascade.MAX_DURATION)
@@ -137,7 +137,7 @@ class RandomCascade(Cascade):
 
 class Twinkle(Animator):
     MIN_DURATION = 5.0
-    MAX_DURATION = 10.0
+    MAX_DURATION = 30.0
 
     MIN_TWINKLE_PERIOD = 0.2
     MAX_TWINKLE_PERIOD = 2.0
@@ -168,10 +168,10 @@ class Twinkle(Animator):
 
 class Pulse(Animator):
     MIN_DURATION = 5.0
-    MAX_DURATION = 10.0
+    MAX_DURATION = 20.0
 
     MIN_PERIOD = 0.2
-    MAX_PERIOD = 2.0
+    MAX_PERIOD = 3.0
 
     def __init__(self):
         duration = random.uniform(Pulse.MIN_DURATION, Pulse.MAX_DURATION)
@@ -199,10 +199,10 @@ class Pulse(Animator):
 
 class Sweep(Animator):
     MIN_DURATION = 5.0
-    MAX_DURATION = 10.0
+    MAX_DURATION = 20.0
 
     MIN_PERIOD = 0.2
-    MAX_PERIOD = 2.0
+    MAX_PERIOD = 3.0
 
     def __init__(self):
         duration = random.uniform(Sweep.MIN_DURATION, Sweep.MAX_DURATION)
