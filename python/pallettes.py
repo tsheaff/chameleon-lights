@@ -7,6 +7,10 @@ gradient_sets = {
             '#ffffff',
         ],
         [
+            '#ffff00',
+            '#ffff00',
+        ],
+        [
             '#0000ff',
             '#0000ff',
         ],
