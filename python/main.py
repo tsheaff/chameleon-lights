@@ -236,7 +236,7 @@ class Conductor:
     NUM_STRANDS = 3
     NUM_PIXELS = PIXELS_PER_STRAND * NUM_STRANDS
 
-    FRAME_RATE = 10.0
+    FRAME_RATE = 1.0
     FRAME_DURATION = (1 / FRAME_RATE)
 
     def __init__(self):
