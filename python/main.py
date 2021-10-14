@@ -87,7 +87,9 @@ class Cascade(Animator):
         start_index, start_remainder = helpers.pixel_at(start, self.num_pixels)
         end_index, end_remainder = helpers.pixel_at(end, self.num_pixels)
 
+        print("Cascade will update: (start_index, end_index)", start_index, end_index)
         for i in range(start_index, min(end_index + 1, self.num_pixels - 1)):
+            print("Cascade LOOP i:", i)
             pixel_progress = i / (self.num_pixels - 1)
 
             if i == start_index:
