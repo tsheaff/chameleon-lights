@@ -1,3 +1,20 @@
+rgb_gradients = [
+    [
+        '#ff0000',
+        '#ffff00',
+    ],
+    [
+        '#ff0000',
+        '#ff00ff',
+    ],
+]
+
+pastel_gradients = [
+    [
+
+    ]
+]
+
 pallette = [
     '#ffbe0b',
     '#fb5607',
