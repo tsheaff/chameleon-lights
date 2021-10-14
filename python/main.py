@@ -97,7 +97,10 @@ class Cascade(Animator):
             if i == start_index:
                 color_ratio = 1 - start_remainder
             elif i == end_index:
-                color_ratio = end_remainder
+                if i == (self.num_pixels - 1):
+                    color_ratio = 1
+                else:
+                    color_ratio = end_remainder
             else:
                 color_ratio = 1
 
