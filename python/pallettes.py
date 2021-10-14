@@ -45,21 +45,19 @@ gradient_set = [
 ],
 
 set_index = 0
-current_shuffle = random.shuffle(gradient_set)
-print("current_shuffle", current_shuffle)
 
 def reshuffle_set():
-    global current_shuffle
-    current_shuffle = random.shuffle()
+    random.shuffle(gradient_set)
+    print("pallette shuffle is", gradient_set)
 
 # TODO: Randomize the set first
 def get_next_gradient():
     global set_index
-    if set_index >= len(current_shuffle):
+    if set_index >= len(gradient_set):
         reshuffle_set()
         set_index = 0
 
-    gradient = current_shuffle[set_index]
+    gradient = gradient_set[set_index]
     set_index += 1
     return gradient
     
@@ -69,3 +67,5 @@ def pick_next_gradient():
     gradient = get_next_gradient()
     print("chose gradient", gradient)
     return list(map(lambda rgb: Color(rgb), gradient))
+
+reshuffle_set()
