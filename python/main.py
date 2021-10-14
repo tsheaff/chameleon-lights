@@ -21,7 +21,7 @@ class Animator:
         self.type = type
         self.previous_colors = conductor.pixel_colors.copy()
 
-    def update_frame():
+    def update_frame(self):
         print("should override `update_frame` on Animator subclass")
 
     def start(self):
