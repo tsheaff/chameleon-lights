@@ -2,10 +2,18 @@ from colour import Color
 
 gradient_sets = {
     "rgb": [
-        # [
-        #     '#ffffff',
-        #     '#000000',
-        # ],
+        [
+            '#ffffff',
+            '#ffffff',
+        ],
+        [
+            '#0000ff',
+            '#0000ff',
+        ],
+        [
+            '#ff0000',
+            '#ff0000',
+        ],
         [
             '#00ff00',
             '#ff0000',
@@ -22,22 +30,6 @@ gradient_sets = {
             '#0000ff',
             '#ffff00',
         ],
-        # [
-        #     '#ffffff',
-        #     '#0000ff',
-        # ],
-        # [
-        #     '#ffffff',
-        #     '#ff0000',
-        # ],
-        # [
-        #     '#ffffff',
-        #     '#ff8000',
-        # ],
-        # [
-        #     '#ffffff',
-        #     '#ff00ff',
-        # ],
         [
             '#00ff00',
             '#0000ff',
@@ -47,24 +39,6 @@ gradient_sets = {
             '#ff00ff',
         ],
     ],
-    # "pastel": [
-    #     [
-    #         '#ffbe0b',
-    #         '#fb5607',
-    #     ],
-    #     [
-    #         '#ff006e',
-    #         '#8338ec',
-    #     ],
-    #     [
-    #         '#3a86ff',
-    #         '#8338ec',
-    #     ],
-    #     [
-    #         '#ff006e',
-    #         '#fb5607',
-    #     ],
-    # ]
 }
 
 set_name_index = 0
