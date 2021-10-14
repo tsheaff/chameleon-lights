@@ -133,19 +133,24 @@ class Conductor:
         self.pixel_colors = list(map(lambda x: Color("#000000"), [None] * Conductor.NUM_PIXELS))
         self.current_animator = None
 
-    def start_next_animator(self):
-        if self.current_animator is not None:
-            self.current_animator.stop()
+    def get_next_animator(self, previous_animator):
+        if previous_animator is None:
+            return RandomCascade()
 
         previous_type = self.current_animator.type
 
         if previous_type == AnimatorType.CASCADE:
             # TODO: Randomly pick from stady-states?
-            self.current_animator = Twinkle()
+            return Twinkle()
         else:
             # TODO: Always from non-cascade to cascade, or ever multiple steady states?
-            self.current_animator = RandomCascade()
+            return RandomCascade()
 
+    def start_next_animator(self):
+        if self.current_animator is not None:
+            self.current_animator.stop()
+
+        self.current_animator = self.get_next_animator(self.current_animator)
         self.current_animator.start()
 
     def update_frame(self, duration_elapsed):
