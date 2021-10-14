@@ -32,7 +32,7 @@ class Animator:
 
     @property
     def is_stopped(self):
-        return self.time_began != None
+        return self.time_began == None
 
 class Cascade(Animator):
     def __init__(self, duration, gradient, easing_curve, starting_position):
