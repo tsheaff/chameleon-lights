@@ -142,6 +142,7 @@ class Twinkle(Animator):
         black = Color('#000000')
         for i, period in enumerate(self.pixel_periods):
             intensity = 0.5 * math.cos(math.pi * self.time_elapsed / period) + 0.5
+            print("Twinkle: (i, intensity)", i, intensity)
             original_color = self.previous_colors[i]
             conductor.pixel_colors[i] = helpers.interpolate_colors(black, original_color, intensity)
 
