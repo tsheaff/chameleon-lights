@@ -33,7 +33,7 @@ gradient_sets = {
 
 set_name_index = 0
 set_index = 0
-all_set_names = gradient_sets.keys()
+all_set_names = list(gradient_sets.keys())
 
 # TODO: Shuffle, not just linear
 def pick_next_gradient():
