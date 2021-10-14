@@ -96,12 +96,7 @@ class Cascade(Animator):
         start_index, start_remainder = helpers.pixel_at(start, self.num_pixels)
         end_index, end_remainder = helpers.pixel_at(end, self.num_pixels)
 
-        print("Cascade will update: (curved_progress)", curved_progress)
-        print("Cascade will update: (start, end)", start, end)
-        print("Cascade will update: (start_index, end_index)", start_index, end_index)
-        print("Cascade will update: (start_remainder, end_remainder)", start_remainder, end_remainder)
         for i in range(start_index, min(end_index + 1, self.num_pixels)):
-            print("Cascade LOOP i:", i)
             pixel_progress = i / (self.num_pixels - 1)
 
             if i == start_index:
@@ -223,15 +218,11 @@ class Sweep(Animator):
             return False
 
         intensity = 0.5 * math.cos(math.pi * self.time_elapsed / self.period) + 0.5
-        print("   -> Sweep: updating frame: intensity", intensity)
-        print("   -> Sweep: self.previous_colors", self.previous_colors)
         for i in range(0, self.num_pixels):
             # TODO: Figure out why this isn't working for the very ends
             inverted_i = self.num_pixels - 1 - i
-            print("   -> Sweep: LOOP: (i, inverted_i)", i, inverted_i)
             inverted_color = self.previous_colors[inverted_i]
             original_color = self.previous_colors[i]
-            print("   -> Sweep: LOOP: (inverted_color, original_color)", inverted_color, original_color)
             conductor.pixel_colors[i] = helpers.interpolate_colors(inverted_color, original_color, intensity)
 
         if self.progress >= 1:
