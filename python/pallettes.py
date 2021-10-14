@@ -39,13 +39,14 @@ all_set_names = list(gradient_sets.keys())
 def pick_next_gradient():
     global set_index, set_name_index
     set_name = all_set_names[set_name_index]
-    set_index += 1
     set = gradient_sets[set_name]
     if set_index >= len(set):
         set_index = 0
         set_name_index += 1
         if set_name_index >= len(all_set_names):
             set_name_index = 0
+    else:
+        set_index += 1
         
     gradient = gradient_sets[set_name][set_index]
     print("chose gradient", gradient)
