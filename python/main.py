@@ -4,7 +4,7 @@ import time
 import math
 import helpers
 import pallettes
-from random import randrange, uniform
+from random import randint, uniform
 from easing_functions import *
 from colour import Color
 from enum import Enum
@@ -13,7 +13,10 @@ import numpy as np
 class AnimatorType(Enum):
     CASCADE = 1
     TWINKLE = 2
-    # TODO: Add More
+    PULSE = 3
+    SWEEP = 4
+
+AnimatorTypeMax = AnimatorType.SWEEP
 
 # abstract superclass for Cascaded and all Steady States
 class Animator:
@@ -153,6 +156,68 @@ class Twinkle(Animator):
 
         return True
 
+class Pulse(Animator):
+    MIN_DURATION = 5.0
+    MAX_DURATION = 10.0
+
+    MIN_PERIOD = 0.2
+    MAX_PERIOD = 2.0
+
+    def __init__(self):
+        duration = uniform(Pulse.MIN_DURATION, Pulse.MAX_DURATION)
+        super().__init__(duration, AnimatorType.PULSE)
+        self.period = uniform(Pulse.MIN_PERIOD, Pulse.MAX_PERIOD)
+
+        print("Starting new Pulse")
+        print("   --> duration", self.duration)
+        print("   --> period", self.period)
+
+    def update_frame(self):
+        if self.is_stopped:
+            return False
+
+        black = Color('#000000')
+        intensity = 0.5 * math.cos(math.pi * self.time_elapsed / self.period) + 0.5
+        for i in range(0, self.num_pixels):
+            original_color = self.previous_colors[i]
+            conductor.pixel_colors[i] = helpers.interpolate_colors(black, original_color, intensity)
+
+        if self.progress >= 1:
+            return False
+
+        return True
+
+class Sweep(Animator):
+    MIN_DURATION = 5.0
+    MAX_DURATION = 10.0
+
+    MIN_PERIOD = 0.2
+    MAX_PERIOD = 2.0
+
+    def __init__(self):
+        duration = uniform(Sweep.MIN_DURATION, Sweep.MAX_DURATION)
+        super().__init__(duration, AnimatorType.SWEEP)
+        self.period = uniform(Sweep.MIN_PERIOD, Sweep.MAX_PERIOD)
+
+        print("Starting new Sweep")
+        print("   --> duration", self.duration)
+        print("   --> period", self.period)
+
+    def update_frame(self):
+        if self.is_stopped:
+            return False
+
+        intensity = 0.5 * math.cos(math.pi * self.time_elapsed / self.period) + 0.5
+        for i in range(0, self.num_pixels):
+            inverted_color = self.previous_colors[self.num_pixels - 1 - i]
+            original_color = self.previous_colors[i]
+            conductor.pixel_colors[i] = helpers.interpolate_colors(inverted_color, original_color, intensity)
+
+        if self.progress >= 1:
+            return False
+
+        return True
+
 class Conductor:
     PIN = board.D18
     PIXELS_PER_STRAND = 50
@@ -167,18 +232,22 @@ class Conductor:
         self.pixel_colors = list(map(lambda x: Color("#000000"), [None] * Conductor.NUM_PIXELS))
         self.current_animator = None
 
+    def get_random_type(self):
+        return randint(1, AnimatorTypeMax)
+
     def get_next_animator(self, previous_animator):
         if previous_animator is None:
             return RandomCascade()
 
-        previous_type = self.current_animator.type
-
-        if previous_type == AnimatorType.CASCADE:
-            # TODO: Randomly pick from stady-states?
-            return Twinkle()
-        else:
-            # TODO: Always from non-cascade to cascade, or ever multiple steady states?
+        type = self.get_random_type()
+        if type == AnimatorType.CASCADE:
             return RandomCascade()
+        elif type == AnimatorType.TWINKLE:
+            return Twinkle()
+        elif type == AnimatorType.PULSE:
+            return Pulse()
+        elif type == AnimatorType.SWEEP:
+            return Sweep()
 
     def start_next_animator(self):
         if self.current_animator is not None:
