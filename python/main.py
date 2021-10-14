@@ -23,7 +23,12 @@ class Animator:
     def __init__(self, duration, type):
         self.duration = duration
         self.type = type
-        self.previous_colors = conductor.last_cascaded_colors
+        self.previous_colors = self.get_previous_colors()
+
+    def get_previous_colors(self):
+        if conductor.last_cascaded_colors is None:
+            return conductor.pixel_colors.copy()
+        return conductor.last_cascaded_colors
 
     def update_frame(self):
         print("ERROR: should override `update_frame` on Animator subclass")
@@ -62,10 +67,10 @@ class Cascade(Animator):
         super().__init__(duration, AnimatorType.CASCADE)
 
         print("Starting new CASCADE")
-        print("   --> duration", self.duration)
-        print("   --> gradient", self.gradient)
-        print("   --> easing_curve", self.easing_curve)
-        print("   --> starting_position", self.starting_position)
+        print("    --> duration", self.duration)
+        print("    --> gradient", self.gradient)
+        print("    --> easing_curve", self.easing_curve)
+        print("    --> starting_position", self.starting_position)
 
     def color_at(self, progress):
         start_color = self.gradient[0]
@@ -140,8 +145,8 @@ class Twinkle(Animator):
         self.twinkle_periods = list(map(lambda n: random.uniform(Twinkle.MIN_TWINKLE_PERIOD, Twinkle.MAX_TWINKLE_PERIOD), [0] * self.num_pixels))
 
         print("Starting new Twinkle")
-        print("   --> duration", self.duration)
-        print("   --> twinkle_periods", self.twinkle_periods)
+        print("    --> duration", self.duration)
+        print("    --> twinkle_periods", self.twinkle_periods)
 
     def update_frame(self):
         if self.is_stopped:
@@ -171,8 +176,8 @@ class Pulse(Animator):
         self.period = random.uniform(Pulse.MIN_PERIOD, Pulse.MAX_PERIOD)
 
         print("Starting new Pulse")
-        print("   --> duration", self.duration)
-        print("   --> period", self.period)
+        print("    --> duration", self.duration)
+        print("    --> period", self.period)
 
     def update_frame(self):
         if self.is_stopped:
@@ -202,8 +207,8 @@ class Sweep(Animator):
         self.period = random.uniform(Sweep.MIN_PERIOD, Sweep.MAX_PERIOD)
 
         print("Starting new Sweep")
-        print("   --> duration", self.duration)
-        print("   --> period", self.period)
+        print("    --> duration", self.duration)
+        print("    --> period", self.period)
 
     def update_frame(self):
         if self.is_stopped:
