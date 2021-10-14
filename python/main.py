@@ -153,7 +153,7 @@ class Conductor:
         self.current_animator = self.get_next_animator(self.current_animator)
         self.current_animator.start()
 
-    def update_frame(self, duration_elapsed):
+    def update_frame(self):
         if self.current_animator is None or self.current_animator.is_stopped:
             self.start_next_animator()
 
@@ -170,15 +170,14 @@ class Conductor:
         self.start_time = time.time()
 
         while True:
-            current_time = time.time()
-            duration_elapsed = current_time - self.start_time
+            frame_start_time = time.time()
 
-            self.update_frame(duration_elapsed)
+            self.update_frame()
             self.apply_colors()
 
-            frame_cpu_duration = time.time() - current_time
-            print("FRAME: frame_cpu_duration ms:", frame_cpu_duration * 1000)
+            frame_cpu_duration = time.time() - frame_start_time
             sleep_duration = max(0, Conductor.FRAME_DURATION - frame_cpu_duration)
+            print("FRAME: CPU and Sleep Durations (ms):", frame_cpu_duration * 1000, sleep_duration * 1000)
             time.sleep(sleep_duration)
 
 conductor = Conductor()
