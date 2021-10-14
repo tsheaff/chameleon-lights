@@ -47,6 +47,7 @@ gradient_set = [
 set_index = 0
 
 def reshuffle_set():
+    global gradient_set
     random.shuffle(gradient_set)
     print("pallette shuffle is", gradient_set)
 
