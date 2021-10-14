@@ -26,9 +26,11 @@ class Animator:
         return False
 
     def start(self):
+        print("Inside Animator start", self)
         self.time_began = time.time()
 
     def stop(self):
+        print("Inside Animator stop", self)
         self.time_began = None
 
     @property
@@ -92,7 +94,6 @@ class Cascade(Animator):
             conductor.pixel_colors[i] = actual_color
 
         if self.progress >= 1:
-            self.stop()
             return False
 
         return True
@@ -136,7 +137,9 @@ class Twinkle(Animator):
         print("   --> pixel_periods", self.pixel_periods)
 
     def update_frame(self):
+        print("Twinkle update frame")
         if self.is_stopped:
+            print("  ---> Twinkle is stopped")
             return False
 
         black = Color('#000000')
@@ -166,6 +169,7 @@ class Conductor:
         self.current_animator = None
 
     def get_next_animator(self, previous_animator):
+        print("Inside get_next_animator")
         if previous_animator is None:
             return RandomCascade()
 
@@ -179,6 +183,7 @@ class Conductor:
             return RandomCascade()
 
     def start_next_animator(self):
+        print("Inside start_next_animator")
         if self.current_animator is not None:
             self.current_animator.stop()
 
