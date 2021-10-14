@@ -46,6 +46,7 @@ gradient_set = [
 
 set_index = 0
 current_shuffle = random.shuffle(gradient_set)
+print("current_shuffle", current_shuffle)
 
 def reshuffle_set():
     global current_shuffle
