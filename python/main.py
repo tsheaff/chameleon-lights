@@ -23,7 +23,7 @@ class Animator:
     def __init__(self, duration, type):
         self.duration = duration
         self.type = type
-        self.previous_colors = conductor.pixel_colors.copy()
+        self.previous_colors = conductor.last_cascaded_colors
 
     def update_frame(self):
         print("ERROR: should override `update_frame` on Animator subclass")
@@ -71,6 +71,10 @@ class Cascade(Animator):
         start_color = self.gradient[0]
         end_color = self.gradient[1]
         return helpers.interpolate_colors(start_color, end_color, progress)
+
+    def stop(self):
+        super().stop()
+        conductor.last_cascaded_colors = conductor.pixel_colors.copy()
 
     def update_frame(self):
         if self.is_stopped:
