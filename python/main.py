@@ -81,12 +81,22 @@ class Cascade(Animator):
             return False
 
         curved_progress = helpers.evaluate_bezier_at(self.progress, self.easing_curve)
+        self.update_with_progress(curved_progress)
+
+        if self.progress >= 1:
+            self.update_with_progress(1.0)
+            return False
+
+        return True
+
+    def update_with_progress(self, curved_progress):
         end = curved_progress * (1 - self.starting_position) + self.starting_position
         start = (1 - curved_progress) * self.starting_position
 
         start_index, start_remainder = helpers.pixel_at(start, self.num_pixels)
         end_index, end_remainder = helpers.pixel_at(end, self.num_pixels)
 
+        print("Cascade will update: (curved_progress)", curved_progress)
         print("Cascade will update: (start, end)", start, end)
         print("Cascade will update: (start_index, end_index)", start_index, end_index)
         print("Cascade will update: (start_remainder, end_remainder)", start_remainder, end_remainder)
@@ -108,10 +118,6 @@ class Cascade(Animator):
             actual_color = full_color if color_ratio is 1 else helpers.interpolate_colors(self.previous_colors[i], full_color, color_ratio)
             conductor.pixel_colors[i] = actual_color
 
-        if self.progress >= 1:
-            return False
-
-        return True
 
 class RandomCascade(Cascade):
     MIN_DURATION = 3.0
