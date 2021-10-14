@@ -137,7 +137,7 @@ class Twinkle(Animator):
         print("   --> pixel_periods", self.pixel_periods)
 
     def update_frame(self):
-        print("Twinkle update frame")
+        print("Twinkle update frame", self.time_began, self.is_stopped)
         if self.is_stopped:
             print("  ---> Twinkle is stopped")
             return False
