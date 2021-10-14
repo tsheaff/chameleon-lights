@@ -7,7 +7,7 @@ from colour import Color
 
 PIN = board.D18
 PIXELS_PER_STRAND = 50
-NUM_STRANDS = 4
+NUM_STRANDS = 3
 NUM_PIXELS = PIXELS_PER_STRAND * NUM_STRANDS
 
 pixels = neopixel.NeoPixel(PIN, NUM_PIXELS, auto_write=True)
