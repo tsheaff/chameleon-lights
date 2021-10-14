@@ -42,23 +42,24 @@ gradient_set = [
         '#ff0000',
         '#ff0000',
     ],
-],
+]
+
+shuffle = gradient_set.copy()
 
 set_index = 0
 
 def reshuffle_set():
-    global gradient_set
-    random.shuffle(gradient_set)
-    print("pallette shuffle is", gradient_set)
+    random.shuffle(shuffle)
+    print("pallette shuffle is", shuffle)
 
 # TODO: Randomize the set first
 def get_next_gradient():
     global set_index
-    if set_index >= len(gradient_set):
+    if set_index >= len(shuffle):
         reshuffle_set()
         set_index = 0
 
-    gradient = gradient_set[set_index]
+    gradient = shuffle[set_index]
     set_index += 1
     return gradient
     
