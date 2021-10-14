@@ -217,6 +217,7 @@ class Sweep(Animator):
             print("   -> Sweep: LOOP: (i, inverted_i)", i, inverted_i)
             inverted_color = self.previous_colors[inverted_i]
             original_color = self.previous_colors[i]
+            print("   -> Sweep: LOOP: (inverted_color, original_color)", inverted_color, original_color)
             conductor.pixel_colors[i] = helpers.interpolate_colors(inverted_color, original_color, intensity)
 
         if self.progress >= 1:
