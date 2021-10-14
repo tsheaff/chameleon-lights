@@ -137,11 +137,12 @@ class Twinkle(Animator):
         print("   --> pixel_periods", self.pixel_periods)
 
     def update_frame(self):
-        print("Twinkle update frame", self.time_began, self.is_stopped)
+        print("Twinkle update frame", self.time_began, self.is_stopped, self.progress)
         if self.is_stopped:
             print("  ---> Twinkle is stopped")
             return False
 
+        print("Should interpolate", len(self.pixel_periods))
         black = Color('#000000')
         for i, period in enumerate(self.pixel_periods):
             intensity = 0.5 * math.cos(math.pi * self.time_elapsed / period) + 0.5
@@ -150,6 +151,7 @@ class Twinkle(Animator):
             conductor.pixel_colors[i] = helpers.interpolate_colors(black, original_color, intensity)
 
         if self.progress >= 1:
+            print("  ---> Twinkle is complete")
             return False
 
         return True
