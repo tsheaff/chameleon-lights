@@ -246,9 +246,9 @@ class Conductor:
         if type == AnimatorType.CASCADE:
             return RandomCascade()
         elif type == AnimatorType.TWINKLE:
-            return Sweep()
+            return Twinkle()
         elif type == AnimatorType.PULSE:
-            return Sweep()
+            return Pulse()
         elif type == AnimatorType.SWEEP:
             return Sweep()
 
