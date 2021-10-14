@@ -211,6 +211,7 @@ class Sweep(Animator):
 
         intensity = 0.5 * math.cos(math.pi * self.time_elapsed / self.period) + 0.5
         for i in range(0, self.num_pixels):
+            # TODO: Figure out why this isn't working for the very ends
             inverted_color = self.previous_colors[self.num_pixels - 1 - i]
             original_color = self.previous_colors[i]
             conductor.pixel_colors[i] = helpers.interpolate_colors(inverted_color, original_color, intensity)
@@ -254,6 +255,8 @@ class Conductor:
 
     def start_next_animator(self):
         if self.current_animator is not None:
+            # TODO: Have Sweep, Twinkle and Pulse do a full fade to 100% intensity over x seconds
+            # This should make the transitions seamless
             self.current_animator.stop()
 
         self.current_animator = self.get_next_animator(self.current_animator)
