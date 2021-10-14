@@ -23,12 +23,7 @@ class Animator:
     def __init__(self, duration, type):
         self.duration = duration
         self.type = type
-        self.previous_colors = self.get_previous_colors()
-
-    def get_previous_colors(self):
-        if conductor.last_cascaded_colors is None:
-            return conductor.pixel_colors.copy()
-        return conductor.last_cascaded_colors
+        self.previous_colors = conductor.last_cascaded_colors
 
     def update_frame(self):
         print("ERROR: should override `update_frame` on Animator subclass")
@@ -237,6 +232,7 @@ class Conductor:
     def __init__(self):
         self.pixels = neopixel.NeoPixel(Conductor.PIN, Conductor.NUM_PIXELS, auto_write=False)
         self.pixel_colors = list(map(lambda x: Color("#000000"), [None] * Conductor.NUM_PIXELS))
+        self.last_cascaded_colors = self.pixel_colors.copy()
         self.current_animator = None
 
     def get_random_type(self):
