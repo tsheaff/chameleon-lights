@@ -3,6 +3,7 @@ import neopixel
 import time
 import math
 import helpers
+import pallettes
 from random import randrange, uniform
 from easing_functions import *
 from colour import Color
@@ -100,7 +101,7 @@ class Cascade(Animator):
 
 class RandomCascade(Cascade):
     MIN_DURATION = 5.0
-    MAX_DURATION = 15.0
+    MAX_DURATION = 5.0
 
     MIN_STARTING_POSITION = 0.2
     MAX_STARTING_POSITION = 0.8
@@ -108,11 +109,7 @@ class RandomCascade(Cascade):
     def __init__(self):
         duration = uniform(RandomCascade.MIN_DURATION, RandomCascade.MAX_DURATION)
 
-        # TODO: Pick from a pallette, avoiding repeats (eg shuffle then iterate)
-        gradient = [
-            helpers.random_color(),
-            helpers.random_color(),
-        ]
+        gradient = pallettes.pick_next_gradient()
 
         easing_curve = np.asfortranarray([
             [ 0.0, uniform(0, 1), uniform(0, 1), 1.0 ],
