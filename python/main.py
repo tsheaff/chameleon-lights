@@ -23,6 +23,7 @@ class Animator:
 
     def update_frame(self):
         print("should override `update_frame` on Animator subclass")
+        return False
 
     def start(self):
         self.time_began = time.time()
@@ -34,18 +35,31 @@ class Animator:
     def is_stopped(self):
         return self.time_began == None
 
+    @property
+    def num_pixels(self):
+        return Conductor.NUM_PIXELS
+
+    @property
+    def time_elapsed(self):
+        return time.time() - self.time_began
+
+    @property
+    def progress(self):
+        return self.time_elapsed / self.duration
+
 class Cascade(Animator):
     def __init__(self, duration, gradient, easing_curve, starting_position):
-        print("   Cascade: duration", duration)
-        print("   Cascade: gradient", gradient)
-        print("   Cascade: easing_curve", easing_curve)
-        print("   Cascade: starting_position", starting_position)
         self.duration = duration
         self.gradient = gradient
         self.easing_curve = easing_curve
         self.starting_position = starting_position
-
         super().__init__(duration, AnimatorType.CASCADE)
+
+        print("Starting new CASCADE")
+        print("   --> duration", self.duration)
+        print("   --> gradient", self.gradient)
+        print("   --> easing_curve", self.easing_curve)
+        print("   --> starting_position", self.starting_position)
 
     def color_at(self, progress):
         start_color = self.gradient[0]
@@ -56,18 +70,15 @@ class Cascade(Animator):
         if self.is_stopped:
             return False
 
-        time_elapsed = time.time() - self.time_began
-        progress = time_elapsed / self.duration
-
-        curved_progress = helpers.evaluate_bezier_at(progress, self.easing_curve)
+        curved_progress = helpers.evaluate_bezier_at(self.progress, self.easing_curve)
         end = curved_progress * (1 - self.starting_position) + self.starting_position
         start = (1 - curved_progress) * self.starting_position
 
-        start_index, start_remainder = helpers.pixel_at(start, Conductor.NUM_PIXELS)
-        end_index, end_remainder = helpers.pixel_at(end, Conductor.NUM_PIXELS)
+        start_index, start_remainder = helpers.pixel_at(start, self.num_pixels)
+        end_index, end_remainder = helpers.pixel_at(end, self.num_pixels)
 
-        for i in range(start_index, min(end_index + 1, Conductor.NUM_PIXELS - 1)):
-            pixel_progress = i / (Conductor.NUM_PIXELS - 1)
+        for i in range(start_index, min(end_index + 1, self.num_pixels - 1)):
+            pixel_progress = i / (self.num_pixels - 1)
 
             if i == start_index:
                 color_ratio = 1 - start_remainder
@@ -80,7 +91,7 @@ class Cascade(Animator):
             actual_color = full_color if color_ratio is 1 else helpers.interpolate_colors(self.previous_colors[i], full_color, color_ratio)
             conductor.pixel_colors[i] = actual_color
 
-        if progress >= 1:
+        if self.progress >= 1:
             self.stop()
             return False
 
@@ -118,6 +129,26 @@ class Twinkle(Animator):
     def __init__(self):
         duration = uniform(Twinkle.MIN_DURATION, Twinkle.MAX_DURATION)
         super().__init__(duration, AnimatorType.TWINKLE)
+        self.pixel_periods = map(lambda n: uniform(0.1, 1.0), [0] * self.num_pixels)
+
+        print("Starting new Twinkle")
+        print("   --> duration", self.duration)
+        print("   --> pixel_periods", self.pixel_periods)
+
+    def update_frame(self):
+        if self.is_stopped:
+            return False
+
+        black = Color('#000000')
+        for i, period in enumerate(self.pixel_periods):
+            intensity = 0.5 * math.cos(math.pi * self.time_elapsed / period) + 0.5
+            original_color = self.previous_colors[i]
+            conductor.pixel_colors[i] = helpers.interpolate_colors(black, original_color, intensity)
+
+        if self.progress >= 1:
+            return False
+
+        return True
 
 class Conductor:
     PIN = board.D18
