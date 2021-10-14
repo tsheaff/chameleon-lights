@@ -295,7 +295,7 @@ class Conductor:
 
             frame_cpu_duration = time.time() - frame_start_time
             sleep_duration = max(0, Conductor.FRAME_DURATION - frame_cpu_duration)
-            print("FRAME: CPU and Sleep Durations (ms):", frame_cpu_duration * 1000, sleep_duration * 1000)
+            # print("FRAME: CPU and Sleep Durations (ms):", frame_cpu_duration * 1000, sleep_duration * 1000)
             time.sleep(sleep_duration)
 
 conductor = Conductor()
