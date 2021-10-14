@@ -211,6 +211,7 @@ class Sweep(Animator):
 
         intensity = 0.5 * math.cos(math.pi * self.time_elapsed / self.period) + 0.5
         print("   -> Sweep: updating frame: intensity", intensity)
+        print("   -> Sweep: self.previous_colors", self.previous_colors)
         for i in range(0, self.num_pixels):
             # TODO: Figure out why this isn't working for the very ends
             inverted_i = self.num_pixels - 1 - i
