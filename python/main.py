@@ -22,7 +22,7 @@ class Animator:
         self.previous_colors = conductor.pixel_colors.copy()
 
     def update_frame(self):
-        print("should override `update_frame` on Animator subclass")
+        print("ERROR: should override `update_frame` on Animator subclass")
         return False
 
     def start(self):
@@ -137,21 +137,16 @@ class Twinkle(Animator):
         print("   --> pixel_periods", self.pixel_periods)
 
     def update_frame(self):
-        print("Twinkle update frame", self.time_began, self.is_stopped, self.progress)
         if self.is_stopped:
-            print("  ---> Twinkle is stopped")
             return False
 
-        print("Should interpolate", len(self.pixel_periods))
         black = Color('#000000')
         for i, period in enumerate(self.pixel_periods):
             intensity = 0.5 * math.cos(math.pi * self.time_elapsed / period) + 0.5
-            print("Twinkle: (i, intensity)", i, intensity)
             original_color = self.previous_colors[i]
             conductor.pixel_colors[i] = helpers.interpolate_colors(black, original_color, intensity)
 
         if self.progress >= 1:
-            print("  ---> Twinkle is complete")
             return False
 
         return True
@@ -171,7 +166,6 @@ class Conductor:
         self.current_animator = None
 
     def get_next_animator(self, previous_animator):
-        print("Inside get_next_animator")
         if previous_animator is None:
             return RandomCascade()
 
@@ -185,7 +179,6 @@ class Conductor:
             return RandomCascade()
 
     def start_next_animator(self):
-        print("Inside start_next_animator")
         if self.current_animator is not None:
             self.current_animator.stop()
 
