@@ -97,8 +97,6 @@ class Cascade(Animator):
             actual_color = full_color if color_ratio is 1 else helpers.interpolate_colors(self.previous_colors[i], full_color, color_ratio)
             conductor.pixel_colors[i] = actual_color
 
-        print("all colors is", conductor.pixel_colors)
-
         if self.progress >= 1:
             return False
 
