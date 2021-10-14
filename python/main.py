@@ -53,6 +53,7 @@ class Cascade(Animator):
         return helpers.interpolate_colors(start_color, end_color, progress)
 
     def update_frame(self):
+        print("   Cascade update_frame")
         if self.is_stopped:
             return False
 
@@ -62,9 +63,13 @@ class Cascade(Animator):
         curved_progress = helpers.evaluate_bezier_at(progress, self.easing_curve)
         end = curved_progress * (1 - self.starting_position) + self.starting_position
         start = (1 - curved_progress) * self.starting_position
+        print("   Cascade update_frame: curved_progress", curved_progress)
 
         start_index, start_remainder = helpers.pixel_at(start, Conductor.NUM_PIXELS)
         end_index, end_remainder = helpers.pixel_at(end, Conductor.NUM_PIXELS)
+
+        print("   Cascade update_frame: start_index, start_remainder", start_index, start_remainder)
+        print("   Cascade update_frame:     end_index, end_remainder", end_index, end_remainder)
 
         for i in range(start_index, min(end_index + 1, Conductor.NUM_PIXELS - 1)):
             pixel_progress = i / (Conductor.NUM_PIXELS - 1)
@@ -78,6 +83,7 @@ class Cascade(Animator):
 
             full_color = self.color_at(pixel_progress)
             actual_color = full_color if color_ratio is 1 else helpers.interpolate_colors(self.previous_colors[i], full_color, color_ratio)
+            print("   Cascade update_frame: LOOP: index, color", i, actual_color)
             conductor.pixel_colors[i] = actual_color
 
         if progress >= 1:
