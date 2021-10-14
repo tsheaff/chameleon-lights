@@ -3,12 +3,16 @@ from colour import Color
 gradient_sets = {
     "rgb": [
         [
-            '#ff0000',
-            '#ffff00',
+            '#5FAD56',
+            '#F2C14E',
         ],
         [
-            '#ff0000',
-            '#ff00ff',
+            '#F78154',
+            '#4D9078',
+        ],
+        [
+            '#B4436C',
+            '#4D9078',
         ],
     ],
     "pastel": [
