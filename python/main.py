@@ -80,13 +80,14 @@ class Cascade(Animator):
         if self.is_stopped:
             return False
 
-        curved_progress = helpers.evaluate_bezier_at(self.progress, self.easing_curve)
+        curved_progress = 1 # helpers.evaluate_bezier_at(self.progress, self.easing_curve)
         end = curved_progress * (1 - self.starting_position) + self.starting_position
         start = (1 - curved_progress) * self.starting_position
 
         start_index, start_remainder = helpers.pixel_at(start, self.num_pixels)
         end_index, end_remainder = helpers.pixel_at(end, self.num_pixels)
 
+        print("Cascade will update: (start, end)", start, end)
         print("Cascade will update: (start_index, end_index)", start_index, end_index)
         for i in range(start_index, min(end_index + 1, self.num_pixels - 1)):
             print("Cascade LOOP i:", i)
