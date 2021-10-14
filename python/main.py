@@ -94,6 +94,8 @@ class Cascade(Animator):
             actual_color = full_color if color_ratio is 1 else helpers.interpolate_colors(self.previous_colors[i], full_color, color_ratio)
             conductor.pixel_colors[i] = actual_color
 
+        print("all colors is", conductor.pixel_colors)
+
         if self.progress >= 1:
             return False
 
@@ -209,7 +211,7 @@ class Conductor:
 
             frame_cpu_duration = time.time() - frame_start_time
             sleep_duration = max(0, Conductor.FRAME_DURATION - frame_cpu_duration)
-            print("FRAME: CPU and Sleep Durations (ms):", frame_cpu_duration * 1000, sleep_duration * 1000)
+            # print("FRAME: CPU and Sleep Durations (ms):", frame_cpu_duration * 1000, sleep_duration * 1000)
             time.sleep(sleep_duration)
 
 conductor = Conductor()
