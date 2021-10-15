@@ -41,9 +41,9 @@ class Animator:
         self.time_began = None
 
     def start_buffer_if_necessary(self):
-        if self.bugger_began is None:
+        if self.buffer_began is None:
             print("starting buffer", self.buffer_duration)
-            self.bugger_began = time.time()
+            self.buffer_began = time.time()
 
     @property
     def is_stopped(self):
@@ -63,8 +63,8 @@ class Animator:
 
     @property
     def buffer_progress(self):
-        if self.bugger_began is None: return 0
-        return (time.time() - self.bugger_began) / self.buffer_duration
+        if self.buffer_began is None: return 0
+        return (time.time() - self.buffer_began) / self.buffer_duration
 
 class Cascade(Animator):
     def __init__(self, duration, gradient, easing_curve, starting_position):
