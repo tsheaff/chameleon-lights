@@ -66,7 +66,7 @@ class Animator:
 
 class Cascade(Animator):
     MIN_DURATION = 3.0
-    MAX_DURATION = 3.0 #30.0
+    MAX_DURATION = 30.0
 
     MIN_STARTING_POSITION = 0.05
     MAX_STARTING_POSITION = 0.95
@@ -322,7 +322,7 @@ class Conductor:
 
             frame_cpu_duration = time.time() - frame_start_time
             sleep_duration = max(0, Conductor.FRAME_DURATION - frame_cpu_duration)
-            # print("FRAME: CPU and Sleep Durations (ms):", frame_cpu_duration * 1000, sleep_duration * 1000, flush=True)
+            # print("FRAME: CPU and Sleep Durations (ms):", frame_cpu_duration * 1000, sleep_duration * 1000)
             time.sleep(sleep_duration)
 
 conductor = Conductor()
