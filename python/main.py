@@ -10,6 +10,10 @@ from colour import Color
 from enum import Enum
 import numpy as np
 
+# TODO:
+#   - Perf checks
+#   - Fix Sweep bug
+
 class AnimatorType(Enum):
     CASCADE = 1
     TWINKLE = 2
