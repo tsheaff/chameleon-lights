@@ -5,7 +5,7 @@ import math
 import helpers
 import pallettes
 import random
-from easing_functions import *
+import easing_functions
 from colour import Color
 from enum import Enum
 import numpy as np
@@ -18,11 +18,14 @@ class AnimatorType(Enum):
 
 AnimatorTypeMax = AnimatorType.SWEEP
 
+NormalizedEaseInOut = easing_functions.QuadEaseInOut(start=0, end=1, duration = 1)
+
 # abstract superclass for Cascaded and all Steady States
 class Animator:
-    def __init__(self, duration, type):
-        self.duration = duration
+    def __init__(self, type, duration, buffer_duration):
         self.type = type
+        self.duration = duration
+        self.buffer_duration = buffer_duration
         self.previous_colors = conductor.last_cascaded_colors
 
     def update_frame(self):
@@ -36,6 +39,11 @@ class Animator:
     def stop(self):
         print("Inside Animator stop", self)
         self.time_began = None
+
+    def start_buffer_if_necessary(self):
+        if self.bugger_began is None:
+            print("starting buffer", self.buffer_duration)
+            self.bugger_began = time.time()
 
     @property
     def is_stopped(self):
@@ -53,13 +61,18 @@ class Animator:
     def progress(self):
         return self.time_elapsed / self.duration
 
+    @property
+    def buffer_progress(self):
+        if self.bugger_began is None: return 0
+        return (time.time() - self.bugger_began) / self.buffer_duration
+
 class Cascade(Animator):
     def __init__(self, duration, gradient, easing_curve, starting_position):
-        self.duration = duration
         self.gradient = gradient
         self.easing_curve = easing_curve
         self.starting_position = starting_position
-        super().__init__(duration, AnimatorType.CASCADE)
+        buffer_duration = 0
+        super().__init__(AnimatorType.CASCADE, duration, buffer_duration)
 
         print("Starting new CASCADE")
         print("    --> duration", self.duration)
@@ -144,7 +157,8 @@ class Twinkle(Animator):
 
     def __init__(self):
         duration = random.uniform(Twinkle.MIN_DURATION, Twinkle.MAX_DURATION)
-        super().__init__(duration, AnimatorType.TWINKLE)
+        buffer_duration = 2.0
+        super().__init__(AnimatorType.TWINKLE, duration, buffer_duration)
         self.twinkle_periods = list(map(lambda n: random.uniform(Twinkle.MIN_TWINKLE_PERIOD, Twinkle.MAX_TWINKLE_PERIOD), [0] * self.num_pixels))
 
         print("Starting new Twinkle")
@@ -155,14 +169,21 @@ class Twinkle(Animator):
         if self.is_stopped:
             return False
 
+        progress = self.progress
+        buffer_progress = self.buffer_progress
+        curved_buffer_progress = 0 if buffer_progress is 0 else NormalizedEaseInOut.ease(buffer_progress)
+        if progress >= 1:
+            self.start_buffer_if_necessary()
+            if buffer_progress >= 1:
+                return False
+
         black = Color('#000000')
         for i, period in enumerate(self.twinkle_periods):
             intensity = 0.5 * math.cos(math.pi * self.time_elapsed / period) + 0.5
+            buffered_intensity = intensity - (intensity - 1) * curved_buffer_progress
             original_color = self.previous_colors[i]
-            conductor.pixel_colors[i] = helpers.interpolate_colors(black, original_color, intensity)
+            conductor.pixel_colors[i] = helpers.interpolate_colors(black, original_color, buffered_intensity)
 
-        if self.progress >= 1:
-            return False
 
         return True
 
@@ -175,7 +196,8 @@ class Pulse(Animator):
 
     def __init__(self):
         duration = random.uniform(Pulse.MIN_DURATION, Pulse.MAX_DURATION)
-        super().__init__(duration, AnimatorType.PULSE)
+        buffer_duration = 1.0
+        super().__init__(AnimatorType.PULSE, duration, buffer_duration)
         self.period = random.uniform(Pulse.MIN_PERIOD, Pulse.MAX_PERIOD)
 
         print("Starting new Pulse")
@@ -206,7 +228,8 @@ class Sweep(Animator):
 
     def __init__(self):
         duration = random.uniform(Sweep.MIN_DURATION, Sweep.MAX_DURATION)
-        super().__init__(duration, AnimatorType.SWEEP)
+        buffer_duration = 1.0
+        super().__init__(AnimatorType.SWEEP, duration, buffer_duration)
         self.period = random.uniform(Sweep.MIN_PERIOD, Sweep.MAX_PERIOD)
 
         print("Starting new Sweep")
@@ -254,13 +277,13 @@ class Conductor:
 
         type = self.get_random_type()
         if type == AnimatorType.CASCADE:
-            return RandomCascade()
+            return Twinkle()
         elif type == AnimatorType.TWINKLE:
             return Twinkle()
         elif type == AnimatorType.PULSE:
-            return Pulse()
+            return Twinkle()
         elif type == AnimatorType.SWEEP:
-            return Sweep()
+            return Twinkle()
 
     def start_next_animator(self):
         if self.current_animator is not None:
