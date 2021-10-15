@@ -12,8 +12,8 @@ import numpy as np
 
 class AnimatorType(Enum):
     CASCADE = 1
-    # TWINKLE = 2
-    # PULSE = 3
+    TWINKLE = 2
+    PULSE = 3
     SWEEP = 2
 
 NormalizedEaseInOut = easing_functions.QuadEaseInOut(start=0, end=1, duration = 1)
@@ -144,7 +144,7 @@ class Twinkle(Animator):
 
     def __init__(self):
         duration = random.uniform(Twinkle.MIN_DURATION, Twinkle.MAX_DURATION)
-        buffer_duration = 3.0
+        buffer_duration = random.uniform(1.0, 5.0)
         super().__init__(AnimatorType.TWINKLE, duration, buffer_duration)
         self.twinkle_periods = list(map(lambda n: random.uniform(Twinkle.MIN_TWINKLE_PERIOD, Twinkle.MAX_TWINKLE_PERIOD), [0] * self.num_pixels))
 
@@ -182,7 +182,7 @@ class Pulse(Animator):
 
     def __init__(self):
         duration = random.uniform(Pulse.MIN_DURATION, Pulse.MAX_DURATION)
-        buffer_duration = 3.0
+        buffer_duration = random.uniform(1.0, 5.0)
         super().__init__(AnimatorType.PULSE, duration, buffer_duration)
         self.period = random.uniform(Pulse.MIN_PERIOD, Pulse.MAX_PERIOD)
 
@@ -220,7 +220,7 @@ class Sweep(Animator):
 
     def __init__(self):
         duration = random.uniform(Sweep.MIN_DURATION, Sweep.MAX_DURATION)
-        buffer_duration = 3.0
+        buffer_duration = random.uniform(1.0, 5.0)
         super().__init__(AnimatorType.SWEEP, duration, buffer_duration)
         self.period = random.uniform(Sweep.MIN_PERIOD, Sweep.MAX_PERIOD)
 
@@ -268,13 +268,11 @@ class Conductor:
     def last_gradient_was_flat(self):
         first_color = self.last_cascaded_colors[0]
         last_color = self.last_cascaded_colors[-1]
-        print("inside last_gradient_was_flat: (first_color, last_color, eq)", first_color, last_color, first_color == last_color)
         return first_color == last_color
 
     def get_random_type(self):
         candidate_type = random.choice(list(AnimatorType))
         if candidate_type is AnimatorType.SWEEP and conductor.last_gradient_was_flat():
-            print("couldn't get sweep, trying again")
             # Sweep shouldn't occur if the pallette is all the same, so we "roll the dice" again
             return self.get_random_type()
         return candidate_type
@@ -286,10 +284,10 @@ class Conductor:
         type = self.get_random_type()
         if type == AnimatorType.CASCADE:
             return Cascade()
-        # elif type == AnimatorType.TWINKLE:
-        #     return Twinkle()
-        # elif type == AnimatorType.PULSE:
-        #     return Pulse()
+        elif type == AnimatorType.TWINKLE:
+            return Twinkle()
+        elif type == AnimatorType.PULSE:
+            return Pulse()
         elif type == AnimatorType.SWEEP:
             return Sweep()
 
