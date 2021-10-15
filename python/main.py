@@ -286,10 +286,10 @@ class Conductor:
         type = AnimatorType.SWEEP # self.get_random_type()
         if type == AnimatorType.CASCADE:
             return Cascade()
-        elif type == AnimatorType.TWINKLE:
-            return Twinkle()
-        elif type == AnimatorType.PULSE:
-            return Pulse()
+        # elif type == AnimatorType.TWINKLE:
+        #     return Twinkle()
+        # elif type == AnimatorType.PULSE:
+        #     return Pulse()
         elif type == AnimatorType.SWEEP:
             return Sweep()
 
