@@ -283,7 +283,7 @@ class Conductor:
         if previous_animator is None:
             return Cascade()
 
-        type = AnimatorType.SWEEP # self.get_random_type()
+        type = self.get_random_type()
         if type == AnimatorType.CASCADE:
             return Cascade()
         # elif type == AnimatorType.TWINKLE:
