@@ -12,11 +12,9 @@ import numpy as np
 
 class AnimatorType(Enum):
     CASCADE = 1
-    TWINKLE = 2
-    PULSE = 3
-    SWEEP = 4
-
-AnimatorTypeMax = AnimatorType.SWEEP
+    # TWINKLE = 2
+    # PULSE = 3
+    SWEEP = 2
 
 NormalizedEaseInOut = easing_functions.QuadEaseInOut(start=0, end=1, duration = 1)
 
@@ -67,12 +65,23 @@ class Animator:
         return (time.time() - self.buffer_began) / self.buffer_duration
 
 class Cascade(Animator):
-    def __init__(self, duration, gradient, easing_curve, starting_position):
-        self.gradient = gradient
-        self.easing_curve = easing_curve
-        self.starting_position = starting_position
+    MIN_DURATION = 3.0
+    MAX_DURATION = 30.0
+
+    MIN_STARTING_POSITION = 0.05
+    MAX_STARTING_POSITION = 0.95
+
+    def __init__(self):
+        duration = random.uniform(Cascade.MIN_DURATION, Cascade.MAX_DURATION)
         buffer_duration = 0
         super().__init__(AnimatorType.CASCADE, duration, buffer_duration)
+
+        self.gradient = pallettes.pick_next_gradient()
+        self.easing_curve = np.asfortranarray([
+            [ 0.0, random.uniform(0, 1), random.uniform(0, 1), 1.0 ],
+            [ 0.0, random.uniform(0, 1), random.uniform(0, 1), 1.0 ],
+        ])
+        self.starting_position = random.uniform(Cascade.MIN_STARTING_POSITION, Cascade.MAX_STARTING_POSITION)
 
         print("Starting new CASCADE", flush=True)
         print("    --> duration", self.duration, flush=True)
@@ -125,28 +134,6 @@ class Cascade(Animator):
             full_color = self.color_at(pixel_progress)
             actual_color = full_color if color_ratio is 1 else helpers.interpolate_colors(self.previous_colors[i], full_color, color_ratio)
             conductor.pixel_colors[i] = actual_color
-
-
-class RandomCascade(Cascade):
-    MIN_DURATION = 3.0
-    MAX_DURATION = 30.0
-
-    MIN_STARTING_POSITION = 0.05
-    MAX_STARTING_POSITION = 0.95
-
-    def __init__(self):
-        duration = random.uniform(RandomCascade.MIN_DURATION, RandomCascade.MAX_DURATION)
-
-        gradient = pallettes.pick_next_gradient()
-
-        easing_curve = np.asfortranarray([
-            [ 0.0, random.uniform(0, 1), random.uniform(0, 1), 1.0 ],
-            [ 0.0, random.uniform(0, 1), random.uniform(0, 1), 1.0 ],
-        ])
-
-        starting_position = random.uniform(RandomCascade.MIN_STARTING_POSITION, RandomCascade.MAX_STARTING_POSITION)
-
-        super().__init__(duration, gradient, easing_curve, starting_position)
 
 class Twinkle(Animator):
     MIN_DURATION = 5.0
@@ -278,16 +265,25 @@ class Conductor:
         self.last_cascaded_colors = self.pixel_colors.copy()
         self.current_animator = None
 
+    def last_gradient_was_flat(self):
+        first_color = self.last_cascaded_colors[0]
+        last_color = self.last_cascaded_colors[-1]
+        return first_color is last_color
+
     def get_random_type(self):
-        return random.choice(list(AnimatorType))
+        candidate_type = random.choice(list(AnimatorType))
+        if candidate_type is AnimatorType.SWEEP and conductor.last_gradient_was_flat():
+            # Sweep shouldn't occur if the pallette is all the same, so we "roll the dice" again
+            return self.get_random_type()
+        return candidate_type
 
     def get_next_animator(self, previous_animator):
         if previous_animator is None:
-            return RandomCascade()
+            return Cascade()
 
-        type = self.get_random_type()
+        type = AnimatorType.SWEEP # self.get_random_type()
         if type == AnimatorType.CASCADE:
-            return RandomCascade()
+            return Cascade()
         elif type == AnimatorType.TWINKLE:
             return Twinkle()
         elif type == AnimatorType.PULSE:
