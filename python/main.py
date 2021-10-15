@@ -269,7 +269,7 @@ class Conductor:
         first_color = self.last_cascaded_colors[0]
         last_color = self.last_cascaded_colors[-1]
         print("inside last_gradient_was_flat: (first_color, last_color, eq)", first_color, last_color, first_color == last_color)
-        return first_color is last_color
+        return first_color == last_color
 
     def get_random_type(self):
         candidate_type = random.choice(list(AnimatorType))
