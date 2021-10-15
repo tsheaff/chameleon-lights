@@ -26,6 +26,7 @@ class Animator:
         self.type = type
         self.duration = duration
         self.buffer_duration = buffer_duration
+        self.buffer_began = None
         self.previous_colors = conductor.last_cascaded_colors
 
     def update_frame(self):
