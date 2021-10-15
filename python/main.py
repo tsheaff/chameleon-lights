@@ -29,20 +29,20 @@ class Animator:
         self.previous_colors = conductor.last_cascaded_colors
 
     def update_frame(self):
-        print("ERROR: should override `update_frame` on Animator subclass")
+        print("ERROR: should override `update_frame` on Animator subclass", flush=True)
         return False
 
     def start(self):
-        print("Inside Animator start", self)
+        print("Inside Animator start", self, flush=True)
         self.time_began = time.time()
 
     def stop(self):
-        print("Inside Animator stop", self)
+        print("Inside Animator stop", self, flush=True)
         self.time_began = None
 
     def start_buffer_if_necessary(self):
         if self.buffer_began is None:
-            print("starting buffer", self.buffer_duration)
+            print("starting buffer", self.buffer_duration, flush=True)
             self.buffer_began = time.time()
 
     @property
@@ -74,11 +74,11 @@ class Cascade(Animator):
         buffer_duration = 0
         super().__init__(AnimatorType.CASCADE, duration, buffer_duration)
 
-        print("Starting new CASCADE")
-        print("    --> duration", self.duration)
-        print("    --> gradient", self.gradient)
-        print("    --> easing_curve", self.easing_curve)
-        print("    --> starting_position", self.starting_position)
+        print("Starting new CASCADE", flush=True)
+        print("    --> duration", self.duration, flush=True)
+        print("    --> gradient", self.gradient, flush=True)
+        print("    --> easing_curve", self.easing_curve, flush=True)
+        print("    --> starting_position", self.starting_position, flush=True)
 
     def color_at(self, progress):
         start_color = self.gradient[0]
@@ -161,9 +161,9 @@ class Twinkle(Animator):
         super().__init__(AnimatorType.TWINKLE, duration, buffer_duration)
         self.twinkle_periods = list(map(lambda n: random.uniform(Twinkle.MIN_TWINKLE_PERIOD, Twinkle.MAX_TWINKLE_PERIOD), [0] * self.num_pixels))
 
-        print("Starting new Twinkle")
-        print("    --> duration", self.duration)
-        print("    --> twinkle_periods length", len(self.twinkle_periods))
+        print("Starting new Twinkle", flush=True)
+        print("    --> duration", self.duration, flush=True)
+        print("    --> twinkle_periods length", len(self.twinkle_periods), flush=True)
 
     def update_frame(self):
         if self.is_stopped:
@@ -199,9 +199,9 @@ class Pulse(Animator):
         super().__init__(AnimatorType.PULSE, duration, buffer_duration)
         self.period = random.uniform(Pulse.MIN_PERIOD, Pulse.MAX_PERIOD)
 
-        print("Starting new Pulse")
-        print("    --> duration", self.duration)
-        print("    --> period", self.period)
+        print("Starting new Pulse", flush=True)
+        print("    --> duration", self.duration, flush=True)
+        print("    --> period", self.period, flush=True)
 
     def update_frame(self):
         if self.is_stopped:
@@ -237,9 +237,9 @@ class Sweep(Animator):
         super().__init__(AnimatorType.SWEEP, duration, buffer_duration)
         self.period = random.uniform(Sweep.MIN_PERIOD, Sweep.MAX_PERIOD)
 
-        print("Starting new Sweep")
-        print("    --> duration", self.duration)
-        print("    --> period", self.period)
+        print("Starting new Sweep", flush=True)
+        print("    --> duration", self.duration, flush=True)
+        print("    --> period", self.period, flush=True)
 
     def update_frame(self):
         if self.is_stopped:
@@ -326,7 +326,7 @@ class Conductor:
 
             frame_cpu_duration = time.time() - frame_start_time
             sleep_duration = max(0, Conductor.FRAME_DURATION - frame_cpu_duration)
-            # print("FRAME: CPU and Sleep Durations (ms):", frame_cpu_duration * 1000, sleep_duration * 1000)
+            # print("FRAME: CPU and Sleep Durations (ms):", frame_cpu_duration * 1000, sleep_duration * 1000, flush=True)
             time.sleep(sleep_duration)
 
 conductor = Conductor()
