@@ -158,7 +158,7 @@ class Twinkle(Animator):
 
     def __init__(self):
         duration = random.uniform(Twinkle.MIN_DURATION, Twinkle.MAX_DURATION)
-        buffer_duration = 3.0
+        buffer_duration = 3.0 # 1.0
         super().__init__(AnimatorType.TWINKLE, duration, buffer_duration)
         self.twinkle_periods = list(map(lambda n: random.uniform(Twinkle.MIN_TWINKLE_PERIOD, Twinkle.MAX_TWINKLE_PERIOD), [0] * self.num_pixels))
 
@@ -185,19 +185,18 @@ class Twinkle(Animator):
             original_color = self.previous_colors[i]
             conductor.pixel_colors[i] = helpers.interpolate_colors(black, original_color, buffered_intensity)
 
-
         return True
 
 class Pulse(Animator):
     MIN_DURATION = 5.0
-    MAX_DURATION = 20.0
+    MAX_DURATION = 5.0 # 20.0
 
     MIN_PERIOD = 0.2
     MAX_PERIOD = 3.0
 
     def __init__(self):
         duration = random.uniform(Pulse.MIN_DURATION, Pulse.MAX_DURATION)
-        buffer_duration = 1.0
+        buffer_duration = 3.0 # 1.0
         super().__init__(AnimatorType.PULSE, duration, buffer_duration)
         self.period = random.uniform(Pulse.MIN_PERIOD, Pulse.MAX_PERIOD)
 
@@ -209,14 +208,20 @@ class Pulse(Animator):
         if self.is_stopped:
             return False
 
+        progress = self.progress
+        buffer_progress = self.buffer_progress
+        curved_buffer_progress = 0 if buffer_progress is 0 else NormalizedEaseInOut.ease(buffer_progress)
+        if progress >= 1:
+            self.start_buffer_if_necessary()
+            if buffer_progress >= 1:
+                return False
+
         black = Color('#000000')
         intensity = 0.5 * math.cos(math.pi * self.time_elapsed / self.period) + 0.5
+        buffered_intensity = intensity - (intensity - 1) * curved_buffer_progress
         for i in range(0, self.num_pixels):
             original_color = self.previous_colors[i]
-            conductor.pixel_colors[i] = helpers.interpolate_colors(black, original_color, intensity)
-
-        if self.progress >= 1:
-            return False
+            conductor.pixel_colors[i] = helpers.interpolate_colors(black, original_color, buffered_intensity)
 
         return True
 
@@ -229,7 +234,7 @@ class Sweep(Animator):
 
     def __init__(self):
         duration = random.uniform(Sweep.MIN_DURATION, Sweep.MAX_DURATION)
-        buffer_duration = 1.0
+        buffer_duration = 3.0 # 1.0
         super().__init__(AnimatorType.SWEEP, duration, buffer_duration)
         self.period = random.uniform(Sweep.MIN_PERIOD, Sweep.MAX_PERIOD)
 
@@ -241,16 +246,21 @@ class Sweep(Animator):
         if self.is_stopped:
             return False
 
+        progress = self.progress
+        buffer_progress = self.buffer_progress
+        curved_buffer_progress = 0 if buffer_progress is 0 else NormalizedEaseInOut.ease(buffer_progress)
+        if progress >= 1:
+            self.start_buffer_if_necessary()
+            if buffer_progress >= 1:
+                return False
+
         intensity = 0.5 * math.cos(math.pi * self.time_elapsed / self.period) + 0.5
+        buffered_intensity = intensity - (intensity - 1) * curved_buffer_progress
         for i in range(0, self.num_pixels):
-            # TODO: Figure out why this isn't working for the very ends
             inverted_i = self.num_pixels - 1 - i
             inverted_color = self.previous_colors[inverted_i]
             original_color = self.previous_colors[i]
-            conductor.pixel_colors[i] = helpers.interpolate_colors(inverted_color, original_color, intensity)
-
-        if self.progress >= 1:
-            return False
+            conductor.pixel_colors[i] = helpers.interpolate_colors(inverted_color, original_color, buffered_intensity)
 
         return True
 
@@ -282,9 +292,9 @@ class Conductor:
         elif type == AnimatorType.TWINKLE:
             return Twinkle()
         elif type == AnimatorType.PULSE:
-            return Twinkle()
+            return Pulse()
         elif type == AnimatorType.SWEEP:
-            return Twinkle()
+            return Sweep()
 
     def start_next_animator(self):
         if self.current_animator is not None:
