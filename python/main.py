@@ -20,7 +20,6 @@ AnimatorTypeMax = AnimatorType.SWEEP
 
 NormalizedEaseInOut = easing_functions.QuadEaseInOut(start=0, end=1, duration = 1)
 
-# abstract superclass for Cascaded and all Steady States
 class Animator:
     def __init__(self, type, duration, buffer_duration):
         self.type = type
@@ -130,7 +129,7 @@ class Cascade(Animator):
 
 class RandomCascade(Cascade):
     MIN_DURATION = 3.0
-    MAX_DURATION = 3.0 # 30.0
+    MAX_DURATION = 30.0
 
     MIN_STARTING_POSITION = 0.05
     MAX_STARTING_POSITION = 0.95
@@ -151,14 +150,14 @@ class RandomCascade(Cascade):
 
 class Twinkle(Animator):
     MIN_DURATION = 5.0
-    MAX_DURATION = 5.0 # 30.0
+    MAX_DURATION = 30.0
 
     MIN_TWINKLE_PERIOD = 0.2
     MAX_TWINKLE_PERIOD = 2.0
 
     def __init__(self):
         duration = random.uniform(Twinkle.MIN_DURATION, Twinkle.MAX_DURATION)
-        buffer_duration = 3.0 # 1.0
+        buffer_duration = 3.0
         super().__init__(AnimatorType.TWINKLE, duration, buffer_duration)
         self.twinkle_periods = list(map(lambda n: random.uniform(Twinkle.MIN_TWINKLE_PERIOD, Twinkle.MAX_TWINKLE_PERIOD), [0] * self.num_pixels))
 
@@ -189,14 +188,14 @@ class Twinkle(Animator):
 
 class Pulse(Animator):
     MIN_DURATION = 5.0
-    MAX_DURATION = 5.0 # 20.0
+    MAX_DURATION = 20.0
 
     MIN_PERIOD = 0.2
     MAX_PERIOD = 3.0
 
     def __init__(self):
         duration = random.uniform(Pulse.MIN_DURATION, Pulse.MAX_DURATION)
-        buffer_duration = 3.0 # 1.0
+        buffer_duration = 3.0
         super().__init__(AnimatorType.PULSE, duration, buffer_duration)
         self.period = random.uniform(Pulse.MIN_PERIOD, Pulse.MAX_PERIOD)
 
@@ -234,7 +233,7 @@ class Sweep(Animator):
 
     def __init__(self):
         duration = random.uniform(Sweep.MIN_DURATION, Sweep.MAX_DURATION)
-        buffer_duration = 3.0 # 1.0
+        buffer_duration = 3.0
         super().__init__(AnimatorType.SWEEP, duration, buffer_duration)
         self.period = random.uniform(Sweep.MIN_PERIOD, Sweep.MAX_PERIOD)
 
@@ -288,7 +287,7 @@ class Conductor:
 
         type = self.get_random_type()
         if type == AnimatorType.CASCADE:
-            return Twinkle()
+            return RandomCascade()
         elif type == AnimatorType.TWINKLE:
             return Twinkle()
         elif type == AnimatorType.PULSE:
@@ -298,8 +297,6 @@ class Conductor:
 
     def start_next_animator(self):
         if self.current_animator is not None:
-            # TODO: Have Sweep, Twinkle and Pulse do a full fade to 100% intensity over x seconds
-            # This should make the transitions seamless
             self.current_animator.stop()
 
         self.current_animator = self.get_next_animator(self.current_animator)
