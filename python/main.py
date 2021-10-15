@@ -268,11 +268,13 @@ class Conductor:
     def last_gradient_was_flat(self):
         first_color = self.last_cascaded_colors[0]
         last_color = self.last_cascaded_colors[-1]
+        print("inside last_gradient_was_flat: (first_color, last_color, eq)", first_color, last_color, first_color == last_color)
         return first_color is last_color
 
     def get_random_type(self):
         candidate_type = random.choice(list(AnimatorType))
         if candidate_type is AnimatorType.SWEEP and conductor.last_gradient_was_flat():
+            print("couldn't get sweep, trying again")
             # Sweep shouldn't occur if the pallette is all the same, so we "roll the dice" again
             return self.get_random_type()
         return candidate_type
