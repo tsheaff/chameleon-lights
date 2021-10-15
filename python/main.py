@@ -151,14 +151,14 @@ class RandomCascade(Cascade):
 
 class Twinkle(Animator):
     MIN_DURATION = 5.0
-    MAX_DURATION = 30.0
+    MAX_DURATION = 5.0 # 30.0
 
     MIN_TWINKLE_PERIOD = 0.2
     MAX_TWINKLE_PERIOD = 2.0
 
     def __init__(self):
         duration = random.uniform(Twinkle.MIN_DURATION, Twinkle.MAX_DURATION)
-        buffer_duration = 2.0
+        buffer_duration = 3.0
         super().__init__(AnimatorType.TWINKLE, duration, buffer_duration)
         self.twinkle_periods = list(map(lambda n: random.uniform(Twinkle.MIN_TWINKLE_PERIOD, Twinkle.MAX_TWINKLE_PERIOD), [0] * self.num_pixels))
 
