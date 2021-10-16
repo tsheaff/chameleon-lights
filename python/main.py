@@ -70,7 +70,7 @@ class Animator:
 
 class Cascade(Animator):
     MIN_DURATION = 3.0
-    MAX_DURATION = 30.0
+    MAX_DURATION = 3.0 # 30.0
 
     MIN_STARTING_POSITION = 0.05
     MAX_STARTING_POSITION = 0.95
