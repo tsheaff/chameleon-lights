@@ -70,7 +70,7 @@ class Animator:
 
 class Cascade(Animator):
     MIN_DURATION = 3.0
-    MAX_DURATION = 3.0 # 30.0
+    MAX_DURATION = 30.0
 
     MIN_STARTING_POSITION = 0.05
     MAX_STARTING_POSITION = 0.95
@@ -276,15 +276,10 @@ class Conductor:
 
     def get_random_type(self):
         probabilities = {
-            # AnimatorType.CASCADE: 0.5,
-            # AnimatorType.TWINKLE: 0.2,
-            # AnimatorType.PULSE: 0.1,
-            # AnimatorType.SWEEP: 0.2,
-
-            AnimatorType.CASCADE: 0.01,
-            AnimatorType.TWINKLE: 0.01,
-            AnimatorType.PULSE: 0.01,
-            AnimatorType.SWEEP: 0.95,
+            AnimatorType.CASCADE: 0.5,
+            AnimatorType.TWINKLE: 0.2,
+            AnimatorType.PULSE: 0.1,
+            AnimatorType.SWEEP: 0.2,
         }
 
         candidate_type = random.choices(list(probabilities.keys()), list(probabilities.values()))[0]
