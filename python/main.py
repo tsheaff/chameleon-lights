@@ -10,10 +10,6 @@ from colour import Color
 from enum import Enum
 import numpy as np
 
-# TODO:
-#   - Perf checks
-#   - Fix Sweep bug
-
 class AnimatorType(Enum):
     CASCADE = 1
     TWINKLE = 2
@@ -334,6 +330,7 @@ class Conductor:
 
             frame_cpu_duration = time.time() - frame_start_time
             sleep_duration = max(0, Conductor.FRAME_DURATION - frame_cpu_duration)
+            # TODO: Perf checks
             # print("FRAME: CPU and Sleep Durations (ms):", frame_cpu_duration * 1000, sleep_duration * 1000)
             time.sleep(sleep_duration)
 
