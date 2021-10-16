@@ -276,10 +276,15 @@ class Conductor:
 
     def get_random_type(self):
         probabilities = {
-            AnimatorType.CASCADE: 0.5,
-            AnimatorType.TWINKLE: 0.2,
-            AnimatorType.PULSE: 0.1,
-            AnimatorType.SWEEP: 0.2,
+            # AnimatorType.CASCADE: 0.5,
+            # AnimatorType.TWINKLE: 0.2,
+            # AnimatorType.PULSE: 0.1,
+            # AnimatorType.SWEEP: 0.2,
+
+            AnimatorType.CASCADE: 0.01,
+            AnimatorType.TWINKLE: 0.01,
+            AnimatorType.PULSE: 0.01,
+            AnimatorType.SWEEP: 0.95,
         }
 
         candidate_type = random.choices(list(probabilities.keys()), list(probabilities.values()))[0]
