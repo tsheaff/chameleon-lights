@@ -18,7 +18,7 @@ class AnimatorType(Enum):
     CASCADE = 1
     TWINKLE = 2
     PULSE = 3
-    SWEEP = 2
+    SWEEP = 4
 
 NormalizedEaseInOut = easing_functions.QuadEaseInOut(start=0, end=1, duration = 1)
 
@@ -275,9 +275,17 @@ class Conductor:
         return first_color == last_color
 
     def get_random_type(self):
-        candidate_type = random.choice(list(AnimatorType))
+        probabilities = {
+            AnimatorType.CASCADE: 0.5,
+            AnimatorType.TWINKLE: 0.2,
+            AnimatorType.PULSE: 0.1,
+            AnimatorType.SWEEP: 0.2,
+        }
+
+        candidate_type = random.choices(list(probabilities.keys()), list(probabilities.values()))
         if candidate_type is AnimatorType.SWEEP and conductor.last_gradient_was_flat():
             # Sweep shouldn't occur if the pallette is all the same, so we "roll the dice" again
+            print("Skipping sweep, gradient is flat", flush=True)
             return self.get_random_type()
         return candidate_type
 
