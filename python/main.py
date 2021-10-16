@@ -283,6 +283,7 @@ class Conductor:
         }
 
         candidate_type = random.choices(list(probabilities.keys()), list(probabilities.values()))
+        print("candidate_type is", candidate_type)
         if candidate_type is AnimatorType.SWEEP and conductor.last_gradient_was_flat():
             # Sweep shouldn't occur if the pallette is all the same, so we "roll the dice" again
             print("Skipping sweep, gradient is flat", flush=True)
