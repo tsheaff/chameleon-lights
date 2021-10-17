@@ -10,7 +10,7 @@ PIXELS_PER_STRAND = 50
 NUM_STRANDS = 3
 NUM_PIXELS = PIXELS_PER_STRAND * NUM_STRANDS
 
-pixels = neopixel.NeoPixel(PIN, NUM_PIXELS, auto_write=True)
+pixels = neopixel.NeoPixel(PIN, NUM_PIXELS, auto_write=False)
 pixel_colors = list(map(lambda x: Color("#000000"), [None] * NUM_PIXELS))
 
 for i in range(NUM_PIXELS):
@@ -18,6 +18,8 @@ for i in range(NUM_PIXELS):
         pixels[i] = helpers.color_to_rgb(Color('green'))
     else:
         pixels[i] = helpers.color_to_rgb(Color('blue'))
+
+pixels.show()
 
 # while True:
 #     print("in the loop")
