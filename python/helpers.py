@@ -17,9 +17,9 @@ def interpolate_colors(color1, color2, elapsed):
 
 def color_to_rgb(color):
     return [
-        math.floor(color.red * 255),
-        math.floor(color.green * 255),
-        math.floor(color.blue * 255),
+        math.floor(color.red * 255) * 0.5,
+        math.floor(color.green * 255) * 0.5,
+        math.floor(color.blue * 255) * 0.5,
     ]
 
 def random_color():
