@@ -141,9 +141,11 @@ class ModularCascade(Cascade):
         super().__init__()
 
         self.modulus = random.randint(2, 5)
+        self.gradient = pallettes.pick_next_nonflat_gradient()
 
         print("Cascade is MODULAR")
         print("    --> modulus", self.modulus, flush=True)
+        print("    --> actual nonflat gradient", self.gradient, flush=True)
 
     def color_at(self, progress, index):
         if (index % self.modulus) is 0:
