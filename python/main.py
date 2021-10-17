@@ -90,7 +90,7 @@ class Cascade(Animator):
         print("    --> easing_curve", self.easing_curve, flush=True)
         print("    --> starting_position", self.starting_position, flush=True)
 
-    def color_at(self, progress):
+    def color_at(self, progress, index):
         start_color = self.gradient[0]
         end_color = self.gradient[1]
         return helpers.interpolate_colors(start_color, end_color, progress)
@@ -132,83 +132,24 @@ class Cascade(Animator):
             else:
                 color_ratio = 1
 
-            full_color = self.color_at(pixel_progress)
+            full_color = self.color_at(pixel_progress, i)
             actual_color = full_color if color_ratio is 1 else helpers.interpolate_colors(self.previous_colors[i], full_color, color_ratio)
             conductor.pixel_colors[i] = actual_color
 
-class ModularCascade(Animator):
-    MIN_DURATION = 3.0
-    MAX_DURATION = 30.0
-
-    MIN_STARTING_POSITION = 0.05
-    MAX_STARTING_POSITION = 0.95
-
+class ModularCascade(Cascade):
     def __init__(self):
-        duration = random.uniform(Cascade.MIN_DURATION, Cascade.MAX_DURATION)
-        buffer_duration = 0
-        super().__init__(AnimatorType.MODULAR_CASCADE, duration, buffer_duration)
+        super().__init__()
 
-        self.gradient = pallettes.pick_next_nonflat_gradient()
-        self.easing_curve = np.asfortranarray([
-            [ 0.0, random.uniform(0, 1), random.uniform(0, 1), 1.0 ],
-            [ 0.0, random.uniform(0, 1), random.uniform(0, 1), 1.0 ],
-        ])
-        self.starting_position = random.uniform(Cascade.MIN_STARTING_POSITION, Cascade.MAX_STARTING_POSITION)
         self.modulus = random.randint(2, 5)
 
-        print("Starting new MODULAR CASCADE", flush=True)
-        print("    --> duration", self.duration, flush=True)
-        print("    --> gradient", self.gradient, flush=True)
-        print("    --> easing_curve", self.easing_curve, flush=True)
-        print("    --> starting_position", self.starting_position, flush=True)
+        print("Cascade is MODULAR")
         print("    --> modulus", self.modulus, flush=True)
 
-    def color_at_index(self, index):
+    def color_at(self, progress, index):
         if (index % self.modulus) is 0:
             return self.gradient[0]
         else:
             return self.gradient[1]
-
-    def stop(self):
-        super().stop()
-        conductor.last_cascaded_colors = conductor.pixel_colors.copy()
-
-    def update_frame(self):
-        if self.is_stopped:
-            return False
-
-        curved_progress = helpers.evaluate_bezier_at(self.progress, self.easing_curve)
-        self.update_with_progress(curved_progress)
-
-        if self.progress >= 1:
-            self.update_with_progress(1.0)
-            return False
-
-        return True
-
-    def update_with_progress(self, curved_progress):
-        end = curved_progress * (1 - self.starting_position) + self.starting_position
-        start = (1 - curved_progress) * self.starting_position
-
-        start_index, start_remainder = helpers.pixel_at(start, self.num_pixels)
-        end_index, end_remainder = helpers.pixel_at(end, self.num_pixels)
-
-        for i in range(start_index, min(end_index + 1, self.num_pixels)):
-            pixel_progress = i / (self.num_pixels - 1)
-
-            if i == start_index:
-                color_ratio = 1 - start_remainder
-            elif i == end_index:
-                if i == (self.num_pixels - 1):
-                    color_ratio = 1
-                else:
-                    color_ratio = end_remainder
-            else:
-                color_ratio = 1
-
-            full_color = self.color_at_index(i)
-            actual_color = full_color if color_ratio is 1 else helpers.interpolate_colors(self.previous_colors[i], full_color, color_ratio)
-            conductor.pixel_colors[i] = actual_color
 
 class Twinkle(Animator):
     MIN_DURATION = 5.0
@@ -345,11 +286,11 @@ class Conductor:
 
     def get_random_type(self):
         probabilities = {
-            AnimatorType.CASCADE: 0.5,
-            AnimatorType.MODULAR_CASCADE: 0.5,
-            AnimatorType.TWINKLE: 0.2,
-            AnimatorType.PULSE: 0.1,
-            AnimatorType.SWEEP: 0.2,
+            AnimatorType.CASCADE: 50,
+            AnimatorType.MODULAR_CASCADE: 50,
+            AnimatorType.TWINKLE: 30,
+            AnimatorType.PULSE: 20,
+            AnimatorType.SWEEP: 30,
         }
 
         candidate_type = random.choices(list(probabilities.keys()), list(probabilities.values()))[0]
