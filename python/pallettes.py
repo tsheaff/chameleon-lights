@@ -70,4 +70,18 @@ def pick_next_gradient():
     print("chose gradient", gradient)
     return list(map(lambda rgb: Color(rgb), gradient))
 
+def pick_next_nonflat_gradient():
+    attempt = pick_next_gradient
+    if gradient_is_flat(attempt):
+        # try again
+        return pick_next_nonflat_gradient()
+    else:
+        return attempt
+
+def gradient_is_flat(gradient):
+    first_color = gradient[0]
+    last_color = gradient[-1]
+    return first_color == last_color
+
+
 reshuffle_set()

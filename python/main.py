@@ -12,9 +12,10 @@ import numpy as np
 
 class AnimatorType(Enum):
     CASCADE = 1
-    TWINKLE = 2
-    PULSE = 3
-    SWEEP = 4
+    MODULAR_CASCADE = 2
+    TWINKLE = 3
+    PULSE = 4
+    SWEEP = 5
 
 NormalizedEaseInOut = easing_functions.QuadEaseInOut(start=0, end=1, duration = 1)
 
@@ -132,6 +133,80 @@ class Cascade(Animator):
                 color_ratio = 1
 
             full_color = self.color_at(pixel_progress)
+            actual_color = full_color if color_ratio is 1 else helpers.interpolate_colors(self.previous_colors[i], full_color, color_ratio)
+            conductor.pixel_colors[i] = actual_color
+
+class ModularCascade(Animator):
+    MIN_DURATION = 3.0
+    MAX_DURATION = 30.0
+
+    MIN_STARTING_POSITION = 0.05
+    MAX_STARTING_POSITION = 0.95
+
+    def __init__(self):
+        duration = random.uniform(Cascade.MIN_DURATION, Cascade.MAX_DURATION)
+        buffer_duration = 0
+        super().__init__(AnimatorType.MODULAR_CASCADE, duration, buffer_duration)
+
+        self.gradient = pallettes.pick_next_nonflat_gradient()
+        self.easing_curve = np.asfortranarray([
+            [ 0.0, random.uniform(0, 1), random.uniform(0, 1), 1.0 ],
+            [ 0.0, random.uniform(0, 1), random.uniform(0, 1), 1.0 ],
+        ])
+        self.starting_position = random.uniform(Cascade.MIN_STARTING_POSITION, Cascade.MAX_STARTING_POSITION)
+        self.modulus = 2
+
+        print("Starting new MODULAR CASCADE", flush=True)
+        print("    --> duration", self.duration, flush=True)
+        print("    --> gradient", self.gradient, flush=True)
+        print("    --> easing_curve", self.easing_curve, flush=True)
+        print("    --> starting_position", self.starting_position, flush=True)
+        print("    --> modulus", self.modulus, flush=True)
+
+    def color_at_index(self, index):
+        if (index % self.modulus) is 0:
+            return self.gradient[0]
+        else:
+            return self.gradient[1]
+
+    def stop(self):
+        super().stop()
+        conductor.last_cascaded_colors = conductor.pixel_colors.copy()
+
+    def update_frame(self):
+        if self.is_stopped:
+            return False
+
+        curved_progress = helpers.evaluate_bezier_at(self.progress, self.easing_curve)
+        self.update_with_progress(curved_progress)
+
+        if self.progress >= 1:
+            self.update_with_progress(1.0)
+            return False
+
+        return True
+
+    def update_with_progress(self, curved_progress):
+        end = curved_progress * (1 - self.starting_position) + self.starting_position
+        start = (1 - curved_progress) * self.starting_position
+
+        start_index, start_remainder = helpers.pixel_at(start, self.num_pixels)
+        end_index, end_remainder = helpers.pixel_at(end, self.num_pixels)
+
+        for i in range(start_index, min(end_index + 1, self.num_pixels)):
+            pixel_progress = i / (self.num_pixels - 1)
+
+            if i == start_index:
+                color_ratio = 1 - start_remainder
+            elif i == end_index:
+                if i == (self.num_pixels - 1):
+                    color_ratio = 1
+                else:
+                    color_ratio = end_remainder
+            else:
+                color_ratio = 1
+
+            full_color = self.color_at_index(i)
             actual_color = full_color if color_ratio is 1 else helpers.interpolate_colors(self.previous_colors[i], full_color, color_ratio)
             conductor.pixel_colors[i] = actual_color
 
@@ -266,13 +341,12 @@ class Conductor:
         self.current_animator = None
 
     def last_gradient_was_flat(self):
-        first_color = self.last_cascaded_colors[0]
-        last_color = self.last_cascaded_colors[-1]
-        return first_color == last_color
+        return pallettes.gradient_is_flat(self.last_cascaded_colors)
 
     def get_random_type(self):
         probabilities = {
             AnimatorType.CASCADE: 0.5,
+            AnimatorType.MODULAR_CASCADE: 0.5,
             AnimatorType.TWINKLE: 0.2,
             AnimatorType.PULSE: 0.1,
             AnimatorType.SWEEP: 0.2,
@@ -287,11 +361,13 @@ class Conductor:
 
     def get_next_animator(self, previous_animator):
         if previous_animator is None:
-            return Cascade()
+            return ModularCascade()
 
         type = self.get_random_type()
         if type == AnimatorType.CASCADE:
             return Cascade()
+        if type == AnimatorType.MODULAR_CASCADE:
+            return ModularCascade()
         elif type == AnimatorType.TWINKLE:
             return Twinkle()
         elif type == AnimatorType.PULSE:
