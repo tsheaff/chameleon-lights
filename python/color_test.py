@@ -41,4 +41,5 @@ while True:
     print("color is", color)
     print("rgb color is", helpers.color_to_rgb(color))
     pixels.fill(helpers.color_to_rgb(color))
+    pixels.show()
     time.sleep(2.0)
