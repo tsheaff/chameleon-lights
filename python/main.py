@@ -193,10 +193,10 @@ class Twinkle(Animator):
 
 class Pulse(Animator):
     MIN_DURATION = 5.0
-    MAX_DURATION = 20.0
+    MAX_DURATION = 15.0
 
-    MIN_PERIOD = 0.2
-    MAX_PERIOD = 3.0
+    MIN_PERIOD = 1.5
+    MAX_PERIOD = 4.0
 
     def __init__(self):
         duration = random.uniform(Pulse.MIN_DURATION, Pulse.MAX_DURATION)
@@ -290,9 +290,9 @@ class Conductor:
         probabilities = {
             AnimatorType.CASCADE: 50,
             AnimatorType.MODULAR_CASCADE: 50,
-            AnimatorType.TWINKLE: 30,
-            AnimatorType.PULSE: 20,
-            AnimatorType.SWEEP: 30,
+            AnimatorType.TWINKLE: 25,
+            AnimatorType.PULSE: 15,
+            AnimatorType.SWEEP: 35,
         }
 
         candidate_type = random.choices(list(probabilities.keys()), list(probabilities.values()))[0]
