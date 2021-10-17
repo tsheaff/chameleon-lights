@@ -154,7 +154,7 @@ class ModularCascade(Animator):
             [ 0.0, random.uniform(0, 1), random.uniform(0, 1), 1.0 ],
         ])
         self.starting_position = random.uniform(Cascade.MIN_STARTING_POSITION, Cascade.MAX_STARTING_POSITION)
-        self.modulus = 2
+        self.modulus = random.randint(2, 5)
 
         print("Starting new MODULAR CASCADE", flush=True)
         print("    --> duration", self.duration, flush=True)
