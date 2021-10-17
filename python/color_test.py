@@ -14,7 +14,7 @@ pixels = neopixel.NeoPixel(PIN, NUM_PIXELS, auto_write=False)
 pixel_colors = list(map(lambda x: Color("#000000"), [None] * NUM_PIXELS))
 
 for i in range(NUM_PIXELS):
-    if (i % 2) is 0:
+    if (i % 3) is 0:
         pixels[i] = helpers.color_to_rgb(Color('green'))
     else:
         pixels[i] = helpers.color_to_rgb(Color('blue'))
