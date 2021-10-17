@@ -16,9 +16,9 @@ pixel_colors = list(map(lambda x: Color("#000000"), [None] * NUM_PIXELS))
 def render_every_other(n):
     for i in range(NUM_PIXELS):
         if (i % n) is 0:
-            pixels[i] = helpers.color_to_rgb(Color('green'))
+            pixels[i] = helpers.color_to_rgb(Color('orange'))
         else:
-            pixels[i] = helpers.color_to_rgb(Color('blue'))
+            pixels[i] = helpers.color_to_rgb(Color('purple'))
     pixels.show()
 
 render_every_other(2)
