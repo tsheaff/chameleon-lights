@@ -43,4 +43,3 @@ while True:
     pixels.fill(helpers.color_to_rgb(color))
     pixels.show()
     time.sleep(2.0)
-
