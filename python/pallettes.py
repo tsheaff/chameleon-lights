@@ -3,44 +3,44 @@ from colour import Color
 
 gradient_set = [
     [
-        "#00ff00",
-        "#ff0000",
+        '#00ff00',
+        '#ff0000',
     ],
     [
-        "#ff0000",
-        "#ffff00",
+        '#ff0000',
+        '#ffff00',
     ],
     [
-        "#ff0000",
-        "#0000ff",
+        '#ff0000',
+        '#0000ff',
     ],
     [
-        "#0000ff",
-        "#ffff00",
+        '#0000ff',
+        '#ffff00',
     ],
     [
-        "#00ff00",
-        "#0000ff",
+        '#00ff00',
+        '#0000ff',
     ],
     [
-        "#ffc8c8",
-        "#ff00ff",
+        '#ffc8c8',
+        '#ff00ff',
     ],
     [
-        "#ffffff",
-        "#ffffff",
+        '#ffffff',
+        '#ffffff',
     ],
     [
-        "#ffff00",
-        "#ffff00",
+        '#ffff00',
+        '#ffff00',
     ],
     [
-        "#0000ff",
-        "#0000ff",
+        '#0000ff',
+        '#0000ff',
     ],
     [
-        "#ff0000",
-        "#ff0000",
+        '#ff0000',
+        '#ff0000',
     ],
 ]
 
@@ -48,11 +48,9 @@ shuffle = gradient_set.copy()
 
 set_index = 0
 
-
 def reshuffle_set():
     random.shuffle(shuffle)
     print("pallette shuffle is", shuffle)
-
 
 # TODO: Randomize the set first
 def get_next_gradient():
@@ -64,14 +62,13 @@ def get_next_gradient():
     gradient = shuffle[set_index]
     set_index += 1
     return gradient
-
+    
 
 # TODO: Shuffle, not just linear
 def pick_next_gradient():
     gradient = get_next_gradient()
     print("chose gradient", gradient)
     return list(map(lambda rgb: Color(rgb), gradient))
-
 
 def pick_next_nonflat_gradient():
     attempt = pick_next_gradient()
@@ -80,7 +77,6 @@ def pick_next_nonflat_gradient():
         return pick_next_nonflat_gradient()
     else:
         return attempt
-
 
 def gradient_is_flat(gradient):
     first_color = gradient[0]
