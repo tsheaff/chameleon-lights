@@ -310,7 +310,7 @@ class Sweep(Animator):
 class Conductor:
     PIN = board.D18
     PIXELS_PER_STRAND = 50
-    NUM_STRANDS = 3
+    NUM_STRANDS = 4
     NUM_PIXELS = PIXELS_PER_STRAND * NUM_STRANDS
 
     FRAME_RATE = 10.0
