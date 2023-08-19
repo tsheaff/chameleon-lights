@@ -1,35 +1,18 @@
 import random
 from colour import Color
 
-# all the colors in the pallette
-# '#dc143c', # crimson
-# '#f04a00', # golden_gate 
-# '#ff7f50', # coral
-# '#ffd700', # gold
-# '#ffff00', # yellow
-# '#ccdd55', # light_green
-# '#7fff00', # chartreuse 
-# '#008000', # green
-# '#66ffff', # baby_blue
-# '#6495ed', # corn_flower 
-# '#4169e1', # royal_blue
-# '#775588', # joanie_purple
-# '#8b008b', # dark_magenta
-# '#441166', # purple
-# '#ffffff', # white
-
 gradient_set = [
     [
-        '#dc143c', # crimson
-        '#ffd700', # gold
+        '#ff0000', # true_red
+        '#ffff00', # gold
     ],
     [
-        '#dc143c', # crimson
-        '#ffffff', # white
+        '#ff0000', # true_red
+        '#6495ed', # corn_flower 
     ],
     [
-        '#dc143c', # crimson
-        '#775588', # joanie_purple
+        '#ff0000', # true_red
+        '#ff00ff', # true_purple
     ],
     [
         '#f04a00', # golden_gate 
@@ -37,11 +20,15 @@ gradient_set = [
     ],
     [
         '#f04a00', # golden_gate 
-        '#4169e1', # royal_blue
+        '#0000ff', # true_blue
     ],
     [
         '#f04a00', # golden_gate 
         '#8b008b', # dark_magenta
+    ],
+    [
+        '#f04a00', # golden_gate 
+        '#441166', # purple
     ],
     [
         '#ff7f50', # coral
@@ -49,19 +36,15 @@ gradient_set = [
     ],
     [
         '#ff7f50', # coral
-        '#775588', # joanie_purple
+        '#ff00ff', # true_purple
     ],
     [
-        '#ffd700', # gold
-        '#66ffff', # baby_blue
+        '#ffff00', # gold
+        '#0000ff', # true_blue
     ],
     [
-        '#ffd700', # gold
+        '#ffff00', # gold
         '#008000', # green
-    ],
-    [
-        '#7fff00', # chartreuse 
-        '#4169e1', # royal_blue
     ],
     [
         '#7fff00', # chartreuse 
@@ -69,7 +52,7 @@ gradient_set = [
     ],
     [
         '#7fff00', # chartreuse 
-        '#ffffff', # white
+        '#0000ff', # true_blue
     ],
     [
         '#008000', # green
@@ -81,31 +64,31 @@ gradient_set = [
     ],
     [
         '#008000', # green
-        '#ffffff', # white
+        '#ff00ff', # true_purple
     ],
     [
-        '#66ffff', # baby_blue
+        '#0000ff', # true_blue
         '#6495ed', # corn_flower 
     ],
     [
-        '#66ffff', # baby_blue
-        '#775588', # joanie_purple
+        '#0000ff', # true_blue
+        '#ff00ff', # true_purple
     ],
     [
-        '#66ffff', # baby_blue
-        '#ffffff', # white
-    ],
-    [
-        '#4169e1', # royal_blue
+        '#0000ff', # true_blue
         '#8b008b', # dark_magenta
     ],
     [
-        '#4169e1', # royal_blue
+        '#0000ff', # true_blue
         '#441166', # purple
     ],
     [
-        '#dc143c', # crimson
-        '#dc143c', # crimson
+        '#ff0000', # true_red
+        '#ff0000', # true_red
+    ],
+    [
+        '#f04a00', # golden_gate
+        '#f04a00', # golden_gate
     ],
     [
         '#ff7f50', # coral
@@ -124,16 +107,12 @@ gradient_set = [
         '#6495ed', # corn_flower
     ],
     [
-        '#775588', # joanie_purple
-        '#775588', # joanie_purple
+        '#ff00ff', # true_purple
+        '#ff00ff', # true_purple
     ],
     [
         '#441166', # purple
         '#441166', # purple
-    ],
-    [
-        '#ffffff', # white
-        '#ffffff', # white
     ],
 ]
 
