@@ -119,19 +119,19 @@ gradient_set = [
         '#008000', # green
         '#008000', # green
     ],
-    [    
+    [
         '#6495ed', # corn_flower 
         '#6495ed', # corn_flower 
     ],
-    [    
+    [
         '#775588', # joanie_purple
         '#775588', # joanie_purple
     ],
-    [    
+    [
         '#441166', # purple
         '#441166', # purple
     ],
-    [    
+    [
         '#ffffff', # white
         '#ffffff', # white
     ],
