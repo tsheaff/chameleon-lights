@@ -155,7 +155,7 @@ class ModularCascade(Cascade):
 
 class Twinkle(Animator):
     MIN_DURATION = 5.0
-    MAX_DURATION = 30.0
+    MAX_DURATION = 15.0
 
     MIN_TWINKLE_PERIOD = 0.2
     MAX_TWINKLE_PERIOD = 2.0
@@ -287,12 +287,13 @@ class Conductor:
         return pallettes.gradient_is_flat(self.last_cascaded_colors)
 
     def get_random_type(self):
+        # these add up to 100, but they don't need to
         probabilities = {
-            AnimatorType.CASCADE: 50,
-            AnimatorType.MODULAR_CASCADE: 50,
-            AnimatorType.TWINKLE: 25,
-            AnimatorType.PULSE: 15,
-            AnimatorType.SWEEP: 35,
+            AnimatorType.CASCADE: 30,
+            AnimatorType.MODULAR_CASCADE: 30,
+            AnimatorType.TWINKLE: 5,
+            AnimatorType.PULSE: 10,
+            AnimatorType.SWEEP: 25,
         }
 
         candidate_type = random.choices(list(probabilities.keys()), list(probabilities.values()))[0]
