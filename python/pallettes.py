@@ -1,46 +1,139 @@
 import random
 from colour import Color
 
+# all the colors in the pallette
+# '#dc143c', # crimson
+# '#f04a00', # golden_gate 
+# '#ff7f50', # coral
+# '#ffd700', # gold
+# '#ffff00', # yellow
+# '#ccdd55', # light_green
+# '#7fff00', # chartreuse 
+# '#008000', # green
+# '#66ffff', # baby_blue
+# '#6495ed', # corn_flower 
+# '#4169e1', # royal_blue
+# '#775588', # joanie_purple
+# '#8b008b', # dark_magenta
+# '#441166', # purple
+# '#ffffff', # white
+
 gradient_set = [
     [
-        '#00ff00',
-        '#ff0000',
+        '#dc143c', # crimson
+        '#ffd700', # gold
     ],
     [
-        '#ff0000',
-        '#ffff00',
+        '#dc143c', # crimson
+        '#ffffff', # white
     ],
     [
-        '#ff0000',
-        '#0000ff',
+        '#dc143c', # crimson
+        '#775588', # joanie_purple
     ],
     [
-        '#0000ff',
-        '#ffff00',
+        '#f04a00', # golden_gate 
+        '#008000', # green
     ],
     [
-        '#00ff00',
-        '#0000ff',
+        '#f04a00', # golden_gate 
+        '#4169e1', # royal_blue
     ],
     [
-        '#ffc8c8',
-        '#ff00ff',
+        '#f04a00', # golden_gate 
+        '#8b008b', # dark_magenta
     ],
     [
-        '#ffffff',
-        '#ffffff',
+        '#ff7f50', # coral
+        '#6495ed', # corn_flower 
     ],
     [
-        '#ffff00',
-        '#ffff00',
+        '#ff7f50', # coral
+        '#775588', # joanie_purple
     ],
     [
-        '#0000ff',
-        '#0000ff',
+        '#ffd700', # gold
+        '#66ffff', # baby_blue
     ],
     [
-        '#ff0000',
-        '#ff0000',
+        '#ffd700', # gold
+        '#008000', # green
+    ],
+    [
+        '#7fff00', # chartreuse 
+        '#4169e1', # royal_blue
+    ],
+    [
+        '#7fff00', # chartreuse 
+        '#441166', # purple
+    ],
+    [
+        '#7fff00', # chartreuse 
+        '#ffffff', # white
+    ],
+    [
+        '#008000', # green
+        '#6495ed', # corn_flower 
+    ],
+    [
+        '#008000', # green
+        '#8b008b', # dark_magenta
+    ],
+    [
+        '#008000', # green
+        '#ffffff', # white
+    ],
+    [
+        '#66ffff', # baby_blue
+        '#6495ed', # corn_flower 
+    ],
+    [
+        '#66ffff', # baby_blue
+        '#775588', # joanie_purple
+    ],
+    [
+        '#66ffff', # baby_blue
+        '#ffffff', # white
+    ],
+    [
+        '#4169e1', # royal_blue
+        '#8b008b', # dark_magenta
+    ],
+    [
+        '#4169e1', # royal_blue
+        '#441166', # purple
+    ],
+    [
+        '#dc143c', # crimson
+        '#dc143c', # crimson
+    ],
+    [
+        '#ff7f50', # coral
+        '#ff7f50', # coral
+    ],
+    [
+        '#ffff00', # yellow
+        '#ffff00', # yellow
+    ],
+    [
+        '#008000', # green
+        '#008000', # green
+    ],
+    [    
+        '#6495ed', # corn_flower 
+        '#6495ed', # corn_flower 
+    ],
+    [    
+        '#775588', # joanie_purple
+        '#775588', # joanie_purple
+    ],
+    [    
+        '#441166', # purple
+        '#441166', # purple
+    ],
+    [    
+        '#ffffff', # white
+        '#ffffff', # white
     ],
 ]
 
